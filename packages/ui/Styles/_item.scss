@@ -1,0 +1,9 @@
+@import "./sizing";
+
+@mixin item-card {
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 0 sizing(1) sizing(2) sizing(1);
+  min-height: 310px;
+  width: 225px;
+}

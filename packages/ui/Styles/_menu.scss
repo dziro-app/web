@@ -1,0 +1,26 @@
+@import "./colors";
+
+
+@mixin menu {
+  cursor: pointer;
+  position: relative;
+}
+
+@mixin options{
+  background: $black;
+  position: absolute;
+  color: $white;
+  right: 0;
+  top: 100%;
+  padding: 10px 5px;
+}
+
+@mixin option{
+  @include mini-text;
+  cursor: pointer;
+  padding: 0.5em 5px;
+  &:hover {
+    background: $white;
+    color: $black;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "data",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Everardo Sánchez",
+    "email": "eve.san.dev@gmail.com",
+    "url": "https://evesan.rocks"
+  },
+  "dependencies": {
+    "typescript": "^4.6.4"
+  }
+}
