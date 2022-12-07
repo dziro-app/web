@@ -20,7 +20,6 @@
   
   .Loader {
     animation: 1s linear 0s normal none infinite spinAround;
-    // border: 1px solid red;
     text-align: left;
   }
 </style>
