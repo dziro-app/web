@@ -38,3 +38,8 @@ $ npx turbo build
 # To build a filtered app
 $ npx turbo build --filter=free
 ```
+
+## TODO
+- [ ] Create docs app
+- [ ] Add unit test to components
+- [ ] Remove use of firebase
