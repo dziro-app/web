@@ -4,19 +4,19 @@ import Icon from '../../../../../packages/ui/lib//Icon.svelte'
 </script>
     
 <Blueprint title='Icon' code="
-  <Icon name='arrow-left-r' />
-  <Icon name='smile' />
-  <Icon name='spinner-alt' />
-  <Icon name='add' />
-  <Icon name='chevron-down-o' />
-  <Icon name='chevron-right-r' />
-  <Icon name='controller' />
-  <Icon name='layout-grid-small' />
-  <Icon name='more-vertical-alt' />
-  <Icon name='more-vertical-r' />
-  <Icon name='rename' />
-  <Icon name='ShoppingBag' />
-  <Icon name='trash-empty' />
+  <Icon name='arrow-left-r' color='#aaa' />
+  <Icon name='smile' color='#aaa' />
+  <Icon name='spinner-alt' color='#aaa' />
+  <Icon name='add' color='#aaa' />
+  <Icon name='chevron-down-o' color='#aaa' />
+  <Icon name='chevron-right-r' color='#aaa' />
+  <Icon name='controller' color='#aaa' />
+  <Icon name='layout-grid-small' color='#aaa' />
+  <Icon name='more-vertical-alt' color='#aaa' />
+  <Icon name='more-vertical-r' color='#aaa' />
+  <Icon name='rename' color='#aaa' />
+  <Icon name='ShoppingBag' color='#aaa' />
+  <Icon name='trash-empty' color='#aaa' />
 " >
     <p slot='description'>
         Componente de icono
@@ -36,28 +36,28 @@ import Icon from '../../../../../packages/ui/lib//Icon.svelte'
                 <td>name</td>
                 <td>string</td>
                 <td>"more-vertical-r"</td>
-                <td>-</td>
+                <td>Nombre del ícono basado en clases de icomoon</td>
             </tr>
         
             <tr>
                 <td>size</td>
                 <td>number</td>
                 <td>32</td>
-                <td>-</td>
+                <td>Tamaño del componente</td>
             </tr>
         
             <tr>
                 <td>color</td>
                 <td>string</td>
                 <td>"#000000"</td>
-                <td>-</td>
+                <td>Color del componente</td>
             </tr>
         
             <tr>
                 <td>additionalClass</td>
                 <td>string</td>
                 <td>""</td>
-                <td>Extra class par ael coponente</td>
+                <td>Extra class para el coponente</td>
             </tr>
         
         </tbody>
@@ -65,19 +65,19 @@ import Icon from '../../../../../packages/ui/lib//Icon.svelte'
 
     <div slot='example' >
         
-  <Icon name='arrow-left-r' />
-  <Icon name='smile' />
-  <Icon name='spinner-alt' />
-  <Icon name='add' />
-  <Icon name='chevron-down-o' />
-  <Icon name='chevron-right-r' />
-  <Icon name='controller' />
-  <Icon name='layout-grid-small' />
-  <Icon name='more-vertical-alt' />
-  <Icon name='more-vertical-r' />
-  <Icon name='rename' />
-  <Icon name='ShoppingBag' />
-  <Icon name='trash-empty' />
+  <Icon name='arrow-left-r' color='#aaa' />
+  <Icon name='smile' color='#aaa' />
+  <Icon name='spinner-alt' color='#aaa' />
+  <Icon name='add' color='#aaa' />
+  <Icon name='chevron-down-o' color='#aaa' />
+  <Icon name='chevron-right-r' color='#aaa' />
+  <Icon name='controller' color='#aaa' />
+  <Icon name='layout-grid-small' color='#aaa' />
+  <Icon name='more-vertical-alt' color='#aaa' />
+  <Icon name='more-vertical-r' color='#aaa' />
+  <Icon name='rename' color='#aaa' />
+  <Icon name='ShoppingBag' color='#aaa' />
+  <Icon name='trash-empty' color='#aaa' />
 
     </div>
 </Blueprint>

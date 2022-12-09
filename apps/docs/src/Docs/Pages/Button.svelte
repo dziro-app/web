@@ -49,7 +49,7 @@ import Button from '../../../../../packages/ui/lib//Button.svelte'
                 <td>color</td>
                 <td>string</td>
                 <td>"#464646"</td>
-                <td>Color del botónh</td>
+                <td>Color del botón</td>
             </tr>
         
         </tbody>
