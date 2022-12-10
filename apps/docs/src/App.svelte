@@ -77,7 +77,7 @@
   <div class="left">
     <Logo />
     {#each componentMap as compo, i}
-      <p on:click={ () => {seeComponent(i)}} > {compo.name} </p>
+      <button on:click={ () => {seeComponent(i)}} > {compo.name} </button>
     {/each}
   </div>
   <div class="right">
@@ -87,6 +87,8 @@
 
 <style lang='scss'>
   @use "~ui/Styles/_colors.scss";
+  @use "~ui/Styles/_reset.scss";
+  @use "~ui/Styles/_texts.scss";
 
   :global(body) {
     margin: 0;
@@ -102,9 +104,15 @@
       color: colors.$smoke;
       min-height: 100vh;
       padding: 1em;
-      p {
+      button {
+        @include reset.button;
+        @include texts.normal-text;
+  
+        color: colors.$base-color-gray-60;
         cursor: pointer;
-        text-align: center;
+        display: block;
+        text-align: left;
+        width: 100%;
         &:hover {
           color: colors.$white;
         }

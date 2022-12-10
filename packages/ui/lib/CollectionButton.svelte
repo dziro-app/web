@@ -9,7 +9,7 @@
 
 </script>
 
-<div
+<button
   on:click
   class="CollectionButton"
   style={`background: ${color}`}>
@@ -24,13 +24,16 @@
   <div class="move_trigger" >
     <Icon name="layout-grid-small" color={getUiColors(color).text} />
   </div>
-</div>
+</button>
 
 <style lang="scss" >
+  @use '../Styles/reset';
   @import "../Styles/_colors.scss";
   @import "../Styles/_texts.scss";
 
   .CollectionButton {
+    @include reset.button;
+
     align-items: center;
     border-radius: 5px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05);

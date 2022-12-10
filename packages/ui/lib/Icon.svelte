@@ -2,6 +2,7 @@
 
 <script lang="ts" context="module" >
   export type IconType = 
+  "XCircle" |
   "arrow-left-r" | 
   "smile" | 
   "spinner-alt" | 
@@ -26,6 +27,7 @@
 </script>
 
 <button
+  type="button"
   on:click
   >
   <span 
@@ -35,13 +37,14 @@
 </button>
 
 <style lang="scss" >
+  @use "../Styles//reset";
   button {
-    background: transparent;
-    border: none;
+    @include reset.button;
   }
 </style>
 
 <!--E
+  <Icon name='XCircle' color='#aaa' />
   <Icon name='arrow-left-r' color='#aaa' />
   <Icon name='smile' color='#aaa' />
   <Icon name='spinner-alt' color='#aaa' />

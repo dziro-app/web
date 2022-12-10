@@ -4,7 +4,10 @@ import Menu from '../../../../../packages/ui/lib//Menu.svelte'
 </script>
     
 <Blueprint title='Menu' code="
-<Menu onClick={(o) => { alert(o.id) }} options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} />
+<Menu 
+  onClick={(o) => { alert(o.id) }} 
+  options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} 
+/>
 " >
     <p slot='description'>
         Componente para manejar un menú
@@ -39,7 +42,10 @@ import Menu from '../../../../../packages/ui/lib//Menu.svelte'
 
     <div slot='example' >
         
-<Menu onClick={(o) => { alert(o.id) }} options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} />
+<Menu 
+  onClick={(o) => { alert(o.id) }} 
+  options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} 
+/>
 
     </div>
 </Blueprint>

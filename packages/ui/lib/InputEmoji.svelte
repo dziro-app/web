@@ -26,18 +26,19 @@
           {value}
         {/if}
       </span>
-      <div 
-        class="trigger" 
-        class:open={showOptions}
-        on:click={() => {showOptions = !showOptions}} >
-        <Icon size={22} color="inherit" name="chevron-down-o" />
-      </div>
+      <div class="trigger" class:open={showOptions}>
+        <Icon 
+          on:click={() => {showOptions = !showOptions}}
+          size={22} 
+          color="inherit" 
+          name="chevron-down-o" />
+    </div>
     </div>
 
     {#if showOptions}
       <div class="options">
         {#each emojis as emoji}
-        <div class="option" on:click={() => { onChange(emoji) }}> {emoji} </div>
+        <button type="button" class="option" on:click={() => { onChange(emoji) }}> {emoji} </button>
         {/each}
       </div>
     {/if}
@@ -49,7 +50,8 @@
 </div>
 
 <style lang="scss">
-  @use "../Styles/colors.scss";
+  @use "../Styles/colors";
+  @use "../Styles/reset";
   @import "../Styles/_inputs.scss";
   @import "../Styles/_sizing.scss";
 
@@ -67,8 +69,9 @@
       }
 
       .trigger {
+        @include reset.button;
+
         align-items: center;
-        // background: $white;
         transition: all 0.3s;
         border-radius: 50%;
         cursor: pointer;
@@ -102,6 +105,8 @@
       z-index: 2;
       
       .option {
+        @include reset.button;
+
         cursor: pointer;
         padding: sizing(1);
         border-radius: 5px;

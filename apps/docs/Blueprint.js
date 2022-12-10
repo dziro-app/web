@@ -28,13 +28,10 @@ export default function ViteSvelteBlueprint(opts) {
     name: 'svelteBluePrint-hmr',
     enforce: 'post',
     // HMR
-
     
     handleHotUpdate({ file, server }) {
-      console.log(file)
       if (file.includes(srcPath) &&
       file.endsWith('.svelte')) {
-        console.log("#####")
         sd.doDir()        
 
         server.ws.send({

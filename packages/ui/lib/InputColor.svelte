@@ -38,10 +38,10 @@
 
 <div class="ColorInput">
   <BaseInput label={label} name={name} >
-    <div class="display" on:click={() => {showOptions = !showOptions}} >
+    <button type="button" class="display" on:click={() => {showOptions = !showOptions}} >
       {defaultValue}
       <div class="preview" style={`background: ${defaultValue}`} ></div>
-    </div>
+    </button>
     <input
       id={name} name={name}
       bind:this={ref} 
@@ -53,30 +53,36 @@
   {#if showOptions}
     <div class="options" transition:fly="{{y: -10}}" >
       {#each initialOptions as opt}
-        <div 
+      <button 
+          on:click={() => { useSuggestion(opt) }}
+          type="button"
           class="option" 
           style={`background: ${opt}`}
-          on:click={() => { useSuggestion(opt) }}
-        > </div>
+        > </button>
       {/each}
-      <div
+      <button
+        type="button"
         class="option add"
         on:click={() => { ref.click() }} 
-        style={`background: #fff`} > + </div>
+        style={`background: #fff`} > + </button>
     </div>
   {/if}
 </div>
 
 <style lang="scss">
+  @use "../Styles/reset";
+  @use "../Styles/colors";
   @import "../Styles/_inputs.scss";
   @import "../Styles/_sizing.scss";
 
   .ColorInput{
     position: relative;
     .display {
+      @include reset.button;
       @include input;
+
       align-items: center;
-      color: $gray;
+      color: colors.$gray;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -89,7 +95,7 @@
     }
 
     .options {
-      background: $smoke;
+      background: colors.$smoke;
       box-sizing: border-box;
       padding: sizing(2);
       display: flex;
@@ -102,17 +108,21 @@
       z-index: 2;
 
       .option {
+        @include reset.button;
+
         border-radius: 50%;
-        border: 1px solid $gray;
+        border: 1px solid colors.$gray;
         cursor: pointer;
         height: 45px;
         width: 45px;
 
         &:hover {
-          border-color: $black;
+          border-color: colors.$black;
         }
         
         &.add {
+          @include reset.button;
+
           align-items: center;
           font-size: 3em;
           display: flex;

@@ -29,6 +29,7 @@
       analyticsRepo={aRepo}
       itemRepo={iRepo} 
       collectionRepo={cRepo}
+      isUserFree={false}
     />
   </Route>
 </Router>

@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'dziro';
-  src:  url('fonts/dziro.eot?x9eu6i');
-  src:  url('fonts/dziro.eot?x9eu6i#iefix') format('embedded-opentype'),
-    url('fonts/dziro.ttf?x9eu6i') format('truetype'),
-    url('fonts/dziro.woff?x9eu6i') format('woff'),
-    url('fonts/dziro.svg?x9eu6i#dziro') format('svg');
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?gcfflm');
+  src:  url('fonts/icomoon.eot?gcfflm#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?gcfflm') format('truetype'),
+    url('fonts/icomoon.woff?gcfflm') format('woff'),
+    url('fonts/icomoon.svg?gcfflm#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -12,7 +12,7 @@
 
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'dziro' !important;
+  font-family: 'icomoon' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -25,42 +25,45 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-left-r:before {
-  content: "\e90a";
-}
-.icon-smile:before {
-  content: "\e90b";
-}
-.icon-spinner-alt:before {
-  content: "\e90c";
+.icon-XCircle:before {
+  content: "\e90d";
 }
 .icon-add:before {
   content: "\e900";
 }
-.icon-chevron-down-o:before {
+.icon-arrow-left-r:before {
   content: "\e901";
 }
-.icon-chevron-right-r:before {
+.icon-chevron-down-o:before {
   content: "\e902";
 }
-.icon-controller:before {
+.icon-chevron-right-r:before {
   content: "\e903";
 }
-.icon-layout-grid-small:before {
+.icon-controller:before {
   content: "\e904";
 }
-.icon-more-vertical-alt:before {
+.icon-layout-grid-small:before {
   content: "\e905";
 }
-.icon-more-vertical-r:before {
+.icon-more-vertical-alt:before {
   content: "\e906";
 }
-.icon-rename:before {
+.icon-more-vertical-r:before {
   content: "\e907";
 }
-.icon-ShoppingBag:before {
+.icon-rename:before {
   content: "\e908";
 }
-.icon-trash-empty:before {
+.icon-ShoppingBag:before {
   content: "\e909";
+}
+.icon-smile:before {
+  content: "\e90a";
+}
+.icon-spinner-alt:before {
+  content: "\e90b";
+}
+.icon-trash-empty:before {
+  content: "\e90c";
 }

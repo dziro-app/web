@@ -195,7 +195,6 @@
     {#if editAttemptItem}
       <ItemModal
         title="Editar artículo"
-        submitText="ACTUALIZAR"
         defaultValues={convertItemToEdit(editAttemptItem)}
         onSubmit={updateItem}
         onClose={() => { editAttemptItem = null }} />

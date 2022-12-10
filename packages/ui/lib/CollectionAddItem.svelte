@@ -4,20 +4,22 @@
   export let text: string = "Agregar Item" // Texto del botón
 </script>
 
-<div class="AddItem" on:click >
+<button class="AddItem" on:click >
   <div>
     {text}
   </div>
   <Icon name="add" color="inherit" />
-</div>
+</button>
 
 <style lang="scss">
-  @use "../Styles/colors.scss";
+  @use "../Styles/colors";
+  @use "../Styles/reset";
   @import "../Styles/_item.scss";
   @import "../Styles/_sizing.scss";
   @import "../Styles/_texts.scss";
 
   .AddItem {
+    @include reset.button;
     @include item-card;
     @include  normal-text;
     align-content: center;

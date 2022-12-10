@@ -21,12 +21,12 @@
   <div class="info" >
     <img class="profilePic" src={picture} alt="profile_image">
     <span class="username" > {username} </span>
-    <div 
+    <button 
       class="trigger"
       class:open={isOpen}
       on:click={() => { isOpen = !isOpen }}>
       <Icon size={20} name="chevron-down-o" color="inherit" />
-    </div>
+    </button>
   </div>
 
   {#if isOpen && options.length > 0}
@@ -37,9 +37,11 @@
 </div>
 
 <style lang="scss" >
-  @use '../Styles/colors.scss';
+  @use '../Styles/colors';
+  @use '../Styles/reset';
   @import "../Styles/_sizing.scss";
   @import "../Styles/_texts.scss";
+
   .Menu {
     background: colors.$base-color-black-100;
     border-radius: 10px;
@@ -65,6 +67,7 @@
       font-family: 'Raleway', sans-serif;
     }
     .trigger {
+      @include reset.button;
       transition: all 0.3s;
       color: colors.$base-color-gray-60;
 

@@ -22,20 +22,21 @@
 
 <div class="Menu" transition:fly="{{ y: -10 }}">
   { #each options as option }
-    <div class="option" on:click={() => {
-      option.onClick()
-      if(onClick) { onClick() }
+    <button class="option" on:click={() => {
+      if(option.onClick) { option.onClick() }
+      if(onClick) { onClick(option) }
     }} >
       {#if option.icon}
         <Icon color="inherit" size={16} name={option.icon} />
       {/if}
       <div class="text" > {option.text} </div>
-    </div>
+  </button>
   {/each}
 </div>
 
 <style lang="scss">
   @use "../Styles/colors.scss";
+  @use '../Styles/reset';
   @import "../Styles//sizing";
   @import "../Styles/_texts.scss";
 
@@ -45,11 +46,14 @@
     border-radius: 4px;
     padding: sizing(1) 0;
     .option {
+      @include reset.button;
+
       color: colors.$base-color-white-100;
       display: flex;
       align-items: center;
       grid-column-gap: sizing(1);
       padding: sizing(1);
+      width: 100%;
       &:hover {
         background: colors.$base-color-white-100;
         color: colors.$base-color-black-100;
@@ -64,5 +68,8 @@
 </style>
 
 <!--E
-<Menu onClick={(o) => { alert(o.id) }} options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} />
+<Menu 
+  onClick={(o) => { alert(o.id) }} 
+  options={[{'id': 0, 'text': 'Editar', 'icon': 'rename'}, {'id': 1, 'text': 'Eliminar', 'icon': 'trash-empty'}]} 
+/>
 -->

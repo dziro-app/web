@@ -34,22 +34,22 @@
   
 </script>
 
-<a target="_blank" href={website}>
+<a target="_blank" rel="noreferrer" href={website}>
   <div class="Item">
 
     <div class="menuWrapper">
-      <div class="menu" on:click|preventDefault={() => { showOptions = !showOptions }} >
+      <button class="menu" on:click|preventDefault={() => { showOptions = !showOptions }} >
         <div class="menuTrigger">
           <Icon size={22} name="more-vertical-alt" color="#fff" />
         </div>
         {#if showOptions}
           <div transition:fly="{{y: -10}}" class="options" >
             { #each options as option }
-            <div class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </div>
+            <button class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </button>
           {/each}
           </div>
         {/if}
-      </div>
+      </button>
     </div>
 
     {#if obtained}
@@ -70,6 +70,7 @@
 </a>
 
 <style lang="scss">
+  @use '../Styles/reset';
   @import "../Styles/_colors.scss";
   @import "../Styles/_sizing.scss";
   @import "../Styles/_texts.scss";
@@ -104,6 +105,7 @@
     }
     .menu {
       @include menu;
+      @include reset.button;
       .menuTrigger {
         background: $black;
         border-radius: 3px;
@@ -123,6 +125,7 @@
       }
 
       .option{
+        @include reset.button;
         @include option;
       }
     }
