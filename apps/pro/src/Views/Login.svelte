@@ -21,7 +21,10 @@
 
   <h1> Login </h1>
 
-  <Button loading={loading} on:click={spotifyLogin} > Spotify </Button>
+  <Button 
+    color="#1ed760"
+    loading={loading}
+    on:click={spotifyLogin} > Iniciar con Spotify </Button>
 
 </div>
 

@@ -45,8 +45,8 @@
         {#if showOptions}
           <div transition:fly="{{y: -10}}" class="options" >
             { #each options as option }
-            <button class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </button>
-          {/each}
+              <button class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </button>
+            {/each}
           </div>
         {/if}
       </button>
@@ -124,9 +124,10 @@
         top: 110%;
       }
 
-      .option{
+      .option {
         @include reset.button;
         @include option;
+        width: 100%;
       }
     }
 

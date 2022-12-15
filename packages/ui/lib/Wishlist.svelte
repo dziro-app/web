@@ -16,17 +16,15 @@
   import CollectionItem from "./CollectionItem.svelte"
   import type {Option} from "./Menu.svelte"
   // Modals
-  import ItemModal from "../modals/ItemExtended.svelte"
+  import ItemExtendedModal from "../modals/ItemExtended.svelte"
+  import ItemScraper from "../modals/ItemScraper.svelte"
   import CollectionModal from "../modals/Collection.svelte"
   import DeleteConfirmModal from "../modals/DeleteConfirm.svelte"
   // Store
   import { collectionStore } from "../../data/Store/collection"
-  // Analytics
-  import  { type Analytics, type UpsertItemData, EventTypes } from "../../data/Repository/analytics"
 
   export let collectionRepo: CollectionRepo // Repositorio de colecciones
   export let itemRepo: ItemRepo // Repositorio de items
-  export let analyticsRepo: Analytics // Repositorio de analytics
   export let isUserFree: boolean = true
 
   let selectedColection: number | null = null
@@ -83,16 +81,12 @@
     }
   }
 
-  const createItem = async (data: CreateItemDto, useCode: boolean) => {
+  const createItem = async (data: CreateItemDto) => {
     let current = $collectionStore[selectedColection]
     
     try {
       const newItem = await itemRepo.create(current.id, data)
-      const aData: UpsertItemData = {
-        store: data.website,
-        useExtCode: useCode
-      }
-      analyticsRepo.logEvent(EventTypes.UpsertItem, aData)
+
       collectionStore.addItem(current.id, newItem)
       showAddItemModal = false  
     }
@@ -101,14 +95,9 @@
     }
   }
 
-  const updateItem = async(data: CreateItemDto, useCode: boolean) => {
+  const updateItem = async(data: CreateItemDto) => {
     try {
       const updated = await itemRepo.update(editAttemptItem.id, data)
-      const aData: UpsertItemData = {
-        store: data.website,
-        useExtCode: useCode
-      }
-      analyticsRepo.logEvent(EventTypes.UpsertItem, aData)
       collectionStore.update(selectedColection, updated)
       editAttemptItem = null
     }
@@ -188,16 +177,31 @@
 
   {#if isUserFree}
     {#if showAddItemModal}
-      <ItemModal
+      <ItemExtendedModal
         onSubmit={createItem}
         onClose={() => { showAddItemModal = false }} />
     {/if}
     {#if editAttemptItem}
-      <ItemModal
+      <ItemExtendedModal
         title="Editar artículo"
         defaultValues={convertItemToEdit(editAttemptItem)}
         onSubmit={updateItem}
         onClose={() => { editAttemptItem = null }} />
+    {/if}
+  {:else}
+    {#if showAddItemModal}
+      <ItemScraper
+        itemRepo={itemRepo}
+        onSubmit={createItem}
+        onClose={() => { showAddItemModal = false }} />
+    {/if}
+    {#if editAttemptItem}
+      <ItemScraper
+        title="Editar artículo"
+        defaultValues={convertItemToEdit(editAttemptItem)}
+        itemRepo={itemRepo}
+        onSubmit={updateItem}
+        onClose={() => { showAddItemModal = false }} />
     {/if}
   {/if}
 

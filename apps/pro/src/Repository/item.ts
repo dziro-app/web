@@ -9,6 +9,10 @@ export class ItemRepo extends Fetch implements Item {
   constructor(base: string, token: string) {
     super(base, token)
   }
+
+  scrap = (url: string): Promise<CreateItemDto> => {
+    return this.post(`${API_PATH}/scrap`, {url})
+  }
   
   create = (collectionId: string, data: CreateItemDto) : Promise<ItemEntity> => {
     return this.post(`${API_PATH}/${collectionId}`, data)

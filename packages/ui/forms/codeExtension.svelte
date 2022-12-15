@@ -2,7 +2,6 @@
   import {Button, InputText } from "../index"
   import type {CreateItemDto} from "../../data/Dtos/Item"
 
-
   export let onSubmit: (data: CreateItemDto) => void
   export let onError: (errors: Array<string>) => void
 

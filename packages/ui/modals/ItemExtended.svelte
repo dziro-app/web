@@ -1,6 +1,4 @@
 <script lang="ts" >
-  import * as yup from 'yup'
-
   import type {CreateItemDto} from "../../data/Dtos/Item"
   import BaseModal from "./ModalBase.svelte"
 
@@ -11,11 +9,11 @@
 
   export let title: string = "Nuevo artículo"
   export let onClose: () => void
-  export let onSubmit: (data: CreateItemDto, useCode: boolean) => void
+  export let onSubmit: (data: CreateItemDto) => void
   export let defaultValues: CreateItemDto | null = null
 
   let errors = []
-  let showCodeInput = defaultValues === null
+  let showCodeInput = (defaultValues === null)
 
 </script>
 
@@ -30,9 +28,7 @@
         defaultValues = values
         errors = []
       }}
-      onError={(e) => {
-        errors = e
-      }}
+      onError={(e) => { errors = e }}
     />
 
     <p class="lit">
@@ -49,7 +45,7 @@
     </p>
 
     <ArtileForm  
-      onSubmit={(values) => onSubmit(values, false)} 
+      onSubmit={(values) => onSubmit(values)} 
       onError={ (e) => errors = e}
       defaultValues={defaultValues}
     />
