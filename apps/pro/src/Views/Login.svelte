@@ -30,7 +30,9 @@
 
 <style lang='scss' >
   @use "~ui/Styles/_texts.scss";
+  @use "~ui/Styles/_colors.scss";
   .Landing {
+    background: colors.$white;
     padding: 1em;
     h1 {
       @include texts.title;

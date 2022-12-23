@@ -17,7 +17,7 @@
   transition:fly="{{ y: -10}}"
   on:keydown={checkEscKeyAndClose}
   >
-  <div>
+  <div class="Modal__wrapper" >
     <div class="header">
       <div class="close">
         <Icon on:click={onClose} size={25} color="inherit" name="XCircle"/>
@@ -32,6 +32,7 @@
 
 <style lang="scss">
   @use "../Styles/colors";
+  @use "../Styles/breakpoints";
   @import "../Styles/_colors.scss";
   @import "../Styles/_texts.scss";
   @import "../Styles/_scroll.scss";
@@ -48,7 +49,12 @@
     position: fixed;
     top: 0;
     width: 100vw;
-    z-index: 2;
+    z-index: 99;
+
+    &__wrapper {
+      border-radius: 5px;
+      overflow: hidden;
+    }
   }
   .header {
     background: $black;
@@ -81,6 +87,23 @@
     padding: 1em;
     max-height: 60vh;
     overflow-y: scroll;
+  }
+
+  @media screen and (max-width: breakpoints.$mobile) {
+
+    .Modal {
+      &__wrapper {
+        margin: 0 5px;
+      }
+    }
+    .header {
+      padding: 0;
+    }
+
+    .content {
+      max-height: 100vh;
+    }
+    
   }
 </style>
 

@@ -2,6 +2,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition"
   import Icon from "./Icon.svelte"
+  import Button from "./Button.svelte"
 
   type Option = {
     display: string,
@@ -30,14 +31,19 @@
     return "---"
   }
 
-  const nameLength = 45
+  const nameLength = 44
   
 </script>
 
 <a target="_blank" rel="noreferrer" href={website}>
   <div class="Item">
 
-    <div class="menuWrapper">
+    <div class="Item__header">
+      <div>
+        {#if obtained}
+          <div class="tag">Comprado</div>
+        {/if}
+      </div>
       <button class="menu" on:click|preventDefault={() => { showOptions = !showOptions }} >
         <div class="menuTrigger">
           <Icon size={22} name="more-vertical-alt" color="#fff" />
@@ -50,134 +56,167 @@
           </div>
         {/if}
       </button>
+
     </div>
-
-    {#if obtained}
-      <div class="tag">Comprado</div>
-    {/if}
-
-    <img src={image} alt="preview" />
-    <div class="info">
+    <div class="Item__image" >
+      <img src={image} alt="preview" />
+    </div>
+    <div class="Item__info">
       <div class="name"> { name.length > nameLength ? name.substring(0, nameLength)+" ..." : name } </div>
+
       <div class="website" >
         { getDisplayLink(website)}
       </div>
-    </div>
-    <div class="price">
-      $ {price}
+      <div class="price">
+        $ {price}
+      </div>
     </div>
   </div>
 </a>
 
 <style lang="scss">
   @use '../Styles/reset';
-  @import "../Styles/_colors.scss";
-  @import "../Styles/_sizing.scss";
+  @use "../Styles/_colors.scss";
+  @use "../Styles/_item.scss";
+  @use "../Styles/_sizing.scss";
+  @use "../Styles/breakpoints";
   @import "../Styles/_texts.scss";
-  @import "../Styles/_item.scss";
   @import "../Styles/_menu.scss";
 
 
   a{
-      color: $asphalt;
+      color: colors.$asphalt;
       text-decoration: none;
       &:hover, &:visited {
-        color: $black;
+        color: colors.$black;
         color: inherit;
         text-decoration: none;
       }
     }
   .Item {
-    @include item-card;
+    @include item.item-card;
     align-items: center;
-    background: $white;
+    background: colors.$white;
+    color: colors.$black;
     box-shadow: 0 1px 1px  rgba(0,0,0,0.05);
     display: grid;
-    grid-template-rows: 175px 70px 1fr;
-    grid-row-gap: sizing(2);
+    grid-template-rows: 50px 175px 140px;
     overflow: hidden;
     position: relative;
     transition: all 0.3s;
-    .menuWrapper {
-      position: absolute;
-      right: sizing(1);
-      top: sizing(1);
-    }
-    .menu {
-      @include menu;
-      @include reset.button;
-      .menuTrigger {
-        background: $black;
-        border-radius: 3px;
-        cursor: default;
-        opacity: 0.8;
-        transition: all 0.3s;
-        height: 22px;
-        width: 22px;
-        &:hover{
-          box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-          opacity: 1;
-        }
-      }
-      .options {
-        @include options;
-        top: 110%;
-      }
-
-      .option {
-        @include reset.button;
-        @include option;
-        width: 100%;
-      }
-    }
 
     .tag {
       @include mini-text;
       background: $orange;
-      position: absolute;
-      right: sizing(1);
-      // bottom: sizing(1);
       border-radius: 12px;
       padding: 4px 6px;
     }
 
-    img {
-      display: block;
-      height: 100%;
-      transition: all 0.3s;
-      margin: 0 auto;
-      margin-left: -16px;
-      object-fit: cover;
-      width: 116%;
+    &__header {
+      display: grid;
+      grid-template-columns: 1fr 22px;
+      padding: 0 sizing.sizing(2);
+      position: relative;
+      z-index: 2;
+      .menu {
+        @include menu;
+        @include reset.button;
+        .menuTrigger {
+          background: colors.$black;
+          border-radius: 3px;
+          cursor: default;
+          display: flex;
+          justify-content: center;
+          opacity: 0.8;
+          transition: all 0.3s;
+          height: 22px;
+          width: 22px;
+          &:hover{
+            box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+            opacity: 1;
+          }
+        }
+        .options {
+          @include options;
+          top: 110%;
+        }
+        .option {
+          @include reset.button;
+          @include option;
+          width: 100%;
+        }
+      }
     }
 
-    &:hover img {
-      object-fit: scale-down;
-      margin-top: sizing(2);
+    &__image {
+      // margin-left: -16px;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      img {
+        transition: all 0.4s;
+        display: block;
+        height: 100%;
+        object-fit: contain;
+        margin: 0 auto;
+        transform: scale(2) translateY(0);
+      }
     }
-    .info {
+
+    &:hover &__image  {
+      img {
+        transform: scale(1) translateY(0);
+      }
+      
+      // margin-top: sizing(2);
+    }
+    &__info {
       align-items: stretch;
+      box-sizing: border-box;
       display: grid;
       height: 100%;
+      padding:  sizing.sizing(2);
+
       .name {
         @include subtitle;
         align-self: center;
         font-size: 18px;
       }
-      .website {
-        @include small-text;
-        align-items: center;
-        display: flex;
-        grid-gap: 0.5em;
+
+      .price {
+        @include subtitle;
+        text-align: center;
       }
     }
-    .price {
-      @include subtitle;
-      text-align: center;
+
+    .website {
+      @include small-text;
+      align-items: center;
+      display: flex;
+      grid-gap: 0.5em;
     }
 
     &:hover {
       box-shadow: 0 2px 4px 2px rgba(0,0,0,0.1);
+    }
+  }
+
+  @media screen and (max-width: breakpoints.$mobile) {
+    
+    .Item {
+      &__header{
+        .menu {
+          .menuTrigger {
+            height: 30px;
+            width: 30px;
+          }
+        }
+      }
+      &__image {
+        img {
+          transform: scale(1) translateY(0);
+        }
+      }
     }
   }
 </style>

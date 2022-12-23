@@ -39,6 +39,7 @@
 <style lang="scss" >
   @use '../Styles/colors';
   @use '../Styles/reset';
+  @use '../Styles/breakpoints';
   @import "../Styles/_sizing.scss";
   @import "../Styles/_texts.scss";
 
@@ -53,31 +54,32 @@
       align-items: center;
       display: flex;
       justify-content: center;
+      grid-column-gap: 10px;
+      .profilePic {
+        border-radius: 50%;
+        object-fit: cover;
+        height: 30px;
+        width: 30px;
+      }
+      .username {
+        font-size: 20px;
+        font-family: 'Raleway', sans-serif;
+      }
+      .trigger {
+        @include reset.button;
+        transition: all 0.3s;
+        color: colors.$base-color-gray-60;
+
+        &:hover {
+          color: colors.$base-color-white-100;
+        }
+        &.open {
+          transform: rotateZ(180deg);
+        }
+      }
+
     }
 
-    .profilePic {
-      border-radius: 50%;
-      object-fit: cover;
-      height: 30px;
-      width: 30px;
-    }
-    .username {
-      padding: 0 20px;
-      font-size: 20px;
-      font-family: 'Raleway', sans-serif;
-    }
-    .trigger {
-      @include reset.button;
-      transition: all 0.3s;
-      color: colors.$base-color-gray-60;
-
-      &:hover {
-        color: colors.$base-color-white-100;
-      }
-      &.open {
-        transform: rotateZ(180deg);
-      }
-    }
     .options {
       @include small-text;
       box-sizing: border-box;
@@ -86,6 +88,16 @@
       top: calc(100% + sizing(2));
       width: 100%;
       z-index: 3;
+    }
+  }
+
+  @media screen and (max-width: breakpoints.$mobile) {
+    .Menu {
+      .info {
+        .username {
+          display: none;
+        }
+      }
     }
   }
 </style>

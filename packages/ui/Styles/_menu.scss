@@ -16,7 +16,7 @@
 }
 
 @mixin option{
-  @include mini-text;
+  @include small-text;
   cursor: pointer;
   padding: 0.5em 5px;
   &:hover {

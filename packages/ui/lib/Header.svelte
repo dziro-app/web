@@ -1,16 +1,27 @@
 <!--D Header -->
 <script lang="ts">
+  import Logo from './Logo.svelte'
+  import Menu from './UserMenu.svelte'
+  import Icon from './Icon.svelte'
+
   export let username: string = "" // Nombre del usuario
   export let picture: string = "" // Url del perfil del usuario
   export let options = [] // Opciones que se pasarán al componente de menú
 
-
-  import Logo from './Logo.svelte'
-  import Menu from './UserMenu.svelte'
+  const event = new CustomEvent("handleSideBar")
+  const handleSideBar = () => {
+    window.dispatchEvent(event)
+  }
 
 </script>
 
 <header>
+  {#if username && picture}
+    <div class="mobile">
+      <Icon name='List' size={15} color="inherit" on:click={handleSideBar} />
+    </div>
+  {/if}
+
   <div class="logo_wrapper">
     <Logo />
   </div>
@@ -26,16 +37,30 @@
 </header>
 
 <style lang="scss" >
-  @import '../Styles/_colors.scss';
-  @import '../Styles/_sizing.scss';
+  @use '../Styles/breakpoints';
+  @use '../Styles/_colors.scss';
+  @use '../Styles/_sizing.scss';
   header {
     align-items: center;
-    background: $black;
+    background: colors.$black;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     padding: 0px 10px;
-    height: $nav-height;
+    height: sizing.$nav-height;
+      
+    .mobile {
+      display: none;
+      color: colors.$white;
+    }
+  }
+
+  @media screen and (max-width: breakpoints.$mobile) {
+    header {
+      .mobile {
+        display: block;
+      }
+    }
   }
 </style>
 

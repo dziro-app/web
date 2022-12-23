@@ -28,6 +28,7 @@
   export let isUserFree: boolean = true
 
   let selectedColection: number | null = null
+  let showMobileSideBar = false
   
   // Flags for modals
   let showCreateModal = false
@@ -153,12 +154,15 @@
 
   onMount(() => {
     load()
+    window.addEventListener("handleSideBar", () => {
+      showMobileSideBar = !showMobileSideBar
+    })
   })
 
 </script>
 
 <div id='WhishListsView' >
-
+  <!-- Modals -->
   {#if showCreateModal}
     <CollectionModal
       defaultValues={null}
@@ -221,8 +225,9 @@
     />
   {/if}
 
+  <!-- Content Layout -->
 
-  <div class='collectionList' >
+  <div class='collectionList' class:show={showMobileSideBar} >
     <div>
       <Button color="#000" on:click={() => showCreateModal=true} >
         Crear colección
@@ -235,19 +240,19 @@
           name={collection.name} 
           color={collection.color}
           emoji={collection.emoji}
-          on:click={() => { selectedColection = i }} />
+          on:click={() => { selectedColection = i; showMobileSideBar = false }} />
       {/each}
     
     </div>
   </div>
+
 
   {#if selectedColection !== null}
     <CollectionDetail 
       name={$collectionStore[selectedColection].name} 
       color={$collectionStore[selectedColection].color}
       emoji={$collectionStore[selectedColection].emoji}
-      options={menuOptions}
-    >
+      options={menuOptions} >
       <div class="itemList">
         {#each $collectionStore[selectedColection].items as item}
         <CollectionItem
@@ -270,27 +275,30 @@
         {/each}
         <CollectionAddItem  on:click={() => { showAddItemModal = true }} />
       </div>
-    </CollectionDetail>
-
+    </CollectionDetail> 
   {/if}
+
 
 </div>
 
 <style lang='scss' >
+  @use '../Styles/_colors.scss';
+  @use '../Styles/_breakpoints.scss';
+  @use '../Styles/_sizing.scss';
+
   @import '../Styles/_texts.scss';
-  @import '../Styles/_colors.scss';
-  @import '../Styles/_sizing.scss';
 
   #WhishListsView {
     display: grid;
     grid-template-columns: 250px 1fr;
     .collectionList {
+      background: colors.$white;
       box-sizing: border-box;
-      padding: sizing(2);
+      padding: sizing.sizing(2);
       box-shadow: inset -2px 0 8px #cacaca;
       h2 {
         @include title;
-        color: $gray;
+        color: colors.$gray;
       }
       .buttonsList {
         text-align: center;
@@ -303,7 +311,31 @@
     .itemList {
       display: flex;
       flex-wrap: wrap;
-      grid-gap: sizing(2);
+      grid-gap: sizing.sizing(2);
+    }
+  }
+
+  @media screen and (max-width: breakpoints.$mobile) {
+    #WhishListsView {
+      grid-template-columns: 1fr;
+
+      .collectionList {
+        background: colors.$white;
+        position: fixed;
+        z-index: 3;
+        height: calc(100vh - sizing.$nav-height);
+        transform: translate3d(-100%, 0, 0);
+        transition: all 0.4s;
+        overflow-x: scroll;
+        width: 100%;
+        &.show {
+          display: block;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+      .itemList {
+        justify-content: center;
+      }
     }
   }
 </style>

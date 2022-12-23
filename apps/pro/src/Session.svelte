@@ -26,14 +26,14 @@
       try {
         let res = await sessionRepo.refreshToken()
         if (res.access_token === undefined) {
-          console.error("Invalid session")
+          console.log("Invalid session, no token")
         } else {
           const user = JSON.parse(localStorage.getItem(localStorageUserKey))
           sessionStore.setToken(res.access_token)
           sessionStore.setUser(user)
         }
       } catch (e) {
-        console.error("Invalid session")
+        console.log("Invalid session")
       }
     }
   })
@@ -89,20 +89,47 @@
   }]
 </script>
 
-<main>
-  {#if oauthLoading}
+
+{#if oauthLoading}
+  <header>
+    <Header />
+  </header>
+  <div class="loading">
     <Loader size={50} ></Loader>
-  {:else if session === null}
-    <div class="Header">
-      <Header />
-      <LoginView repository={sessionRepo} />
-    </div>
-  {:else}
+  </div>
+{:else if session === null}
+  <header>
+    <Header />
+  </header>
+  <LoginView repository={sessionRepo} />
+
+{:else}
+  <header>
     <Header 
       username={$sessionStore.user.username}
       picture={$sessionStore.user.profile}
       options={userOptions}
     />
-    <slot></slot>
-  {/if}
-</main>
+  </header>
+  <slot></slot>
+{/if}
+
+
+<style lang="scss" >
+  @use "~ui/Styles/_colors.scss";
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .loading {
+    background: colors.$white;
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 80px);
+    align-items: center;
+  }
+</style>

@@ -13,13 +13,16 @@
 <style global lang="scss">
   @use "~ui/Styles/_scroll.scss";
   @use "~ui/Styles/_colors.scss";
+  @use "~ui/Styles/_sizing.scss";
 
   @include scroll.scrollBar(colors.$smoke, colors.$gray);
 
   main {
+    background: colors.$black;
     display: grid;
-    grid-template-rows: 65px 1fr;
-    height: 100vh;
+    height: calc(100vh - sizing.$nav-height);
+    position: relative;
+    top: sizing.$nav-height;
   }
 
 </style>
