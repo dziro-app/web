@@ -40,6 +40,5 @@ $ npx turbo build --filter=free
 ```
 
 ## TODO
-- [ ] Create docs app
+- [ ] Create landing app
 - [ ] Add unit test to components
-- [ ] Remove use of firebase
