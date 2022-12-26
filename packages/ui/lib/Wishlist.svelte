@@ -205,7 +205,7 @@
         defaultValues={convertItemToEdit(editAttemptItem)}
         itemRepo={itemRepo}
         onSubmit={updateItem}
-        onClose={() => { showAddItemModal = false }} />
+        onClose={() => { editAttemptItem = null }} />
     {/if}
   {/if}
 
