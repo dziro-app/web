@@ -228,13 +228,13 @@
   <!-- Content Layout -->
 
   <div class='collectionList' class:show={showMobileSideBar} >
-    <div>
+    <div class='buttonsList' >
       <Button color="#000" on:click={() => showCreateModal=true} >
         Crear colección
       </Button>
     </div>
     <h2> Colecciones </h2>
-    <div class="buttonsList">
+    <div class="collectionsButtonsList">
       {#each $collectionStore as collection, i}
         <CollectionButton 
           name={collection.name} 
@@ -300,7 +300,13 @@
         @include title;
         color: colors.$gray;
       }
+
       .buttonsList {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+      }
+      .collectionsButtonsList {
         text-align: center;
         display: grid;
         grid-row-gap: 16px;

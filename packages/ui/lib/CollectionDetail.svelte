@@ -63,10 +63,12 @@
 
   .header {
     align-items: center;
+    box-shadow: 0 4px 4px rgba(0,0,0,0.06);
     display: grid;
     grid-template-columns: 36px 1fr 20px;
     padding: 24px;
-    box-shadow: 0 4px 4px rgba(0,0,0,0.06);
+    position: relative;
+    z-index: 1;
 
     .iconWrapper {
       align-items: center;
