@@ -1,0 +1,10 @@
+# Dziro Landing update
+- name: Dziro web
+  description: Updates dziro web apps
+  execute: dziro/web.sh
+  token: --- # Replace with secret token of webhook
+  conditions:
+    project.name: web-app
+    ref: refs/heads/main # only will trigger for push to main branch
+    object_kind: push
+    event_name: push

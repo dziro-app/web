@@ -1,0 +1,9 @@
+# API updates from gitlab
+- name: Dziro Api
+  description: Updates dziro api bin
+  execute: dziro/api.sh
+  token: --- # Replace with secreto token of webhook
+  conditions:
+    project.name: api-pro
+    object_kind: push
+    event_name: push
