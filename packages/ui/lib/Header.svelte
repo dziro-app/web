@@ -1,5 +1,6 @@
 <!--D Header -->
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Logo from './Logo.svelte'
   import Menu from './UserMenu.svelte'
   import Icon from './Icon.svelte'
@@ -7,11 +8,15 @@
   export let username: string = "" // Nombre del usuario
   export let picture: string = "" // Url del perfil del usuario
   export let options = [] // Opciones que se pasarán al componente de menú
+  
+  let event
 
-  const event = new CustomEvent("handleSideBar")
   const handleSideBar = () => {
     window.dispatchEvent(event)
   }
+  onMount(() => {
+    event = new window.CustomEvent("handleSideBar")
+  })
 
 </script>
 
