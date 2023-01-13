@@ -20,9 +20,8 @@
     // this acts when a redirection via oauth is made
     if (location.search !== "") {
       oauthLoading = true
-      continueOauth()
     } else {
-    // request to obtain token when browser refresh
+      // request to obtain token when browser refresh
       try {
         let res = await sessionRepo.refreshToken()
         if (res.access_token === undefined) {
@@ -37,22 +36,6 @@
       }
     }
   })
-
-  const continueOauth = async () => {
-    let via = ""
-    const query = new URLSearchParams(location.search);
-    const code = query.get("code")
-    const viaState = query.get("state")
-
-    if (code && viaState) {
-      if (viaState === "dzirospotify") {
-        via = "spotify"
-      }
-      const res = await sessionRepo.getToken(via, code)
-      location.href = "/"
-      localStorage.setItem(localStorageUserKey, JSON.stringify(res.user))
-    }
-  }
 
   const logOut = async () => {
     try {
