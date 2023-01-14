@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
 
   import { Header, Loader } from "ui"
-  import LoginView from "./Views/Login.svelte"
+  import LoginView from "./Views/Login/Login.svelte"
 
   import {SessionRepo} from "./Repository/session"
   import {ApiUrl} from "./Repository/api"

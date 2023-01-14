@@ -1,7 +1,7 @@
 <script lang='ts' >
-  import type { SessionRepo } from "../Repository/session"
-  import FacebookLogin from "./Login/Facebook.svelte"
-  import SpotifyLogin from "./Login/Spotify.svelte"
+  import type { SessionRepo } from "../../Repository/session"
+  import FacebookLogin from "./Facebook.svelte"
+  import SpotifyLogin from "./Spotify.svelte"
 
 
   export let repository: SessionRepo
@@ -15,12 +15,10 @@
   <h1> Login </h1>
 
   <div class="buttons">
-
     <SpotifyLogin repository={repository} />
     <FacebookLogin repository={repository} />
   </div>
 
-  
 
 </div>
 
