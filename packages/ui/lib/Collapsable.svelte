@@ -54,7 +54,6 @@
 
     &__content {
       padding: sizing.sizing(1) sizing.sizing(0);
-      display: grid;
     }
   }
 

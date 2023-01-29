@@ -264,32 +264,35 @@
         Crear colección
       </Button>
     </div>
-
     <div class="collectionsButtonsList">
+
       {#if ownedCollections.length > 0}
         <Collapsable title="Mis colecciones">
-          {#each ownedCollections as collection}
-            <CollectionButton 
-              name={collection.name} 
-              color={collection.color}
-              emoji={collection.emoji}
-              on:click={() => { selectCollection(collection) }} />
-          {/each}
+          <div class="collectionsButtonsList">
+            {#each ownedCollections as collection}
+              <CollectionButton 
+                name={collection.name} 
+                color={collection.color}
+                emoji={collection.emoji}
+                on:click={() => { selectCollection(collection) }} />
+            {/each}
+          </div>
         </Collapsable>
       {/if}
 
       {#if sharedCollections.length > 0}
         <Collapsable title="Compartidas">
-          {#each sharedCollections as collection}
-            <CollectionButton 
-              name={collection.name} 
-              color={collection.color}
-              emoji={collection.emoji}
-              on:click={() => { selectCollection(collection) }} />
-          {/each}
+          <div class="collectionsButtonsList">
+            {#each sharedCollections as collection}
+              <CollectionButton 
+                name={collection.name} 
+                color={collection.color}
+                emoji={collection.emoji}
+                on:click={() => { selectCollection(collection) }} />
+            {/each}
+          </div>
         </Collapsable>
       {/if}
-
     </div>
   </div>
 

@@ -18,7 +18,7 @@
   @include scroll.scrollBar(colors.$smoke, colors.$gray);
 
   main {
-    background: colors.$black;
+    background: colors.$base-color-gray-40;
     display: grid;
     height: calc(100vh - sizing.$nav-height);
     position: relative;
