@@ -13,6 +13,7 @@
     FB.login((response) => {
       if (response.status === "connected") {
         const code = response.authResponse.accessToken
+        console.log(response)
         repository.getToken("facebook", code)
           .then(res => {
             const claimPart = res.access_token.split(".")[1]
@@ -26,7 +27,7 @@
           })
       }
       loading = false
-    })
+    }, {scope: 'email'})
   }
 
 
