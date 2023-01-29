@@ -2,6 +2,8 @@
   import { onMount } from "svelte"
   import { Button } from "ui"
   import type { Session } from "data/Repository/session"
+  import type { User } from 'data/Dtos/Session'
+
   
   export let repository: Session
 
@@ -35,7 +37,10 @@
     if (code && viaState) {
       if (viaState === "dzirospotify") {
         const res = await repository.getToken("spotify", code)
-        localStorage.setItem(localStorageUserKey, JSON.stringify(res.user))
+        const claimPart = res.access_token.split(".")[1]
+        const id = JSON.parse(atob(claimPart)).sub
+        const user: User = { id, ...res.user} 
+        localStorage.setItem(localStorageUserKey, JSON.stringify(user))
         location.href = "/"
       }
     }

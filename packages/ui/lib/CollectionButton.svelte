@@ -62,6 +62,7 @@
     @include normal-text;
     margin-left: 16px;
     cursor: default;
+    justify-self: flex-start;
   }
 
   .move_trigger {

@@ -5,11 +5,13 @@
   import type { CreateCollectionDto } from "../../data/Dtos/Collection"
   import type { CreateItemDto } from "../../data/Dtos/Item"
   import type { Item as ItemEntity } from "../../data/Entities/Item"
+  import type { Collection as CollectionEntity} from "../../data/Entities/Collection"
   // Data Repositories
   import type { Collection as CollectionRepo } from "../../data/Repository/collection"
   import type { Item as ItemRepo } from "../../data/Repository/item"
   // Components
   import Button from "./Button.svelte"
+  import Collapsable from "./Collapsable.svelte"
   import CollectionDetail from "./CollectionDetail.svelte"
   import CollectionButton from "./CollectionButton.svelte"
   import CollectionAddItem from "./CollectionAddItem.svelte"
@@ -20,11 +22,13 @@
   import ItemScraper from "../modals/ItemScraper.svelte"
   import CollectionModal from "../modals/Collection.svelte"
   import DeleteConfirmModal from "../modals/DeleteConfirm.svelte"
+  import ShareCollectionModal from  "../modals/ShareCollection.svelte"
   // Store
   import { collectionStore } from "../../data/Store/collection"
 
   export let collectionRepo: CollectionRepo // Repositorio de colecciones
   export let itemRepo: ItemRepo // Repositorio de items
+  export let userId: null | string = null
   export let isUserFree: boolean = true
 
   let selectedColection: number | null = null
@@ -33,16 +37,29 @@
   // Flags for modals
   let showCreateModal = false
   let showEditModal = false
+  let showShareModal = false
   let showAddItemModal = false
   let showDeleteColletionModal = false
   let editAttemptItem: ItemEntity | null = null
   let deleteItemAttemptModal: ItemEntity | null = null
+
+  $: ownedCollections = $collectionStore.filter((c) => (c.owner_id === userId))
+  $: sharedCollections = $collectionStore.filter((c) => {
+    const collabs = c.shared_with.filter(collaborators => (collaborators.user_id === userId))
+    return collabs.length > 0
+  })
 
   const load = async () => {
     $collectionStore = await collectionRepo.list()
     if ( $collectionStore.length > 0) {
       selectedColection = 0
     }
+  }
+
+  const selectCollection = (collection: CollectionEntity) => {
+    const index = $collectionStore.findIndex(c => c.id === collection.id)
+    selectedColection = index; 
+    showMobileSideBar = false 
   }
 
   const createCollection = async (data: CreateCollectionDto) => {
@@ -137,6 +154,12 @@
     onClick: ()=>{ showEditModal = true }
   }, {
     'id': 1,
+    'icon': 'Export',
+    'text': 'Compartir', 
+    onClick: () => { showShareModal = true }
+  }, 
+  {
+    'id': 2,
     'icon': 'trash-empty',
     'text': 'Eliminar', 
     onClick: () => { showDeleteColletionModal = true }
@@ -177,6 +200,14 @@
       defaultValues={$collectionStore[selectedColection]}
       onSubmit={editCollection}
       onClose={() => { showEditModal = false }} />
+  {/if}
+
+  {#if showShareModal}
+    <ShareCollectionModal
+      collectionRepo={collectionRepo}
+      collectionId={$collectionStore[selectedColection].id}
+      onClose={ () => { showShareModal = false } }
+    />
   {/if}
 
   {#if isUserFree}
@@ -233,16 +264,32 @@
         Crear colección
       </Button>
     </div>
-    <h2> Colecciones </h2>
+
     <div class="collectionsButtonsList">
-      {#each $collectionStore as collection, i}
-        <CollectionButton 
-          name={collection.name} 
-          color={collection.color}
-          emoji={collection.emoji}
-          on:click={() => { selectedColection = i; showMobileSideBar = false }} />
-      {/each}
-    
+      {#if ownedCollections.length > 0}
+        <Collapsable title="Mis colecciones">
+          {#each ownedCollections as collection}
+            <CollectionButton 
+              name={collection.name} 
+              color={collection.color}
+              emoji={collection.emoji}
+              on:click={() => { selectCollection(collection) }} />
+          {/each}
+        </Collapsable>
+      {/if}
+
+      {#if sharedCollections.length > 0}
+        <Collapsable title="Compartidas">
+          {#each sharedCollections as collection}
+            <CollectionButton 
+              name={collection.name} 
+              color={collection.color}
+              emoji={collection.emoji}
+              on:click={() => { selectCollection(collection) }} />
+          {/each}
+        </Collapsable>
+      {/if}
+
     </div>
   </div>
 
@@ -296,21 +343,17 @@
       box-sizing: border-box;
       padding: sizing.sizing(2);
       box-shadow: inset -2px 0 8px #cacaca;
-      h2 {
-        @include title;
-        color: colors.$gray;
-      }
-
       .buttonsList {
         display: flex;
         align-content: center;
         justify-content: center;
+        padding-bottom: 32px;
       }
       .collectionsButtonsList {
         text-align: center;
         display: grid;
-        grid-row-gap: 16px;
-        margin: 16px 0;
+        grid-row-gap: sizing.sizing(2);
+        margin: sizing.sizing(2) 0;
       }
     }
 

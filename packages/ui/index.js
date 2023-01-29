@@ -1,4 +1,5 @@
 import Button from "./lib/Button.svelte"
+import Collapsable from "./lib/Collapsable.svelte"
 import CollectionAddItem from "./lib/CollectionAddItem.svelte"
 import CollectionButton from "./lib/CollectionButton.svelte"
 import CollectionDetail from "./lib/CollectionDetail.svelte"
@@ -17,6 +18,7 @@ import Wishlist from "./lib/Wishlist.svelte"
 
 export {
   Button,
+  Collapsable,
   CollectionAddItem,
   CollectionButton,
   CollectionDetail,

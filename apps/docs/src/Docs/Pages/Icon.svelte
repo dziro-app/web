@@ -4,7 +4,9 @@ import Icon from '../../../../../packages/ui/lib//Icon.svelte'
 </script>
     
 <Blueprint title='Icon' code="
+  <Icon name='List' color='#aaa' />
   <Icon name='XCircle' color='#aaa' />
+  <Icon name='Export' color='#aaa' />
   <Icon name='arrow-left-r' color='#aaa' />
   <Icon name='smile' color='#aaa' />
   <Icon name='spinner-alt' color='#aaa' />
@@ -66,7 +68,9 @@ import Icon from '../../../../../packages/ui/lib//Icon.svelte'
 
     <div slot='example' >
         
+  <Icon name='List' color='#aaa' />
   <Icon name='XCircle' color='#aaa' />
+  <Icon name='Export' color='#aaa' />
   <Icon name='arrow-left-r' color='#aaa' />
   <Icon name='smile' color='#aaa' />
   <Icon name='spinner-alt' color='#aaa' />

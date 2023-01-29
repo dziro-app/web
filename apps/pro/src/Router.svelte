@@ -25,6 +25,7 @@
     <Wishlist
       itemRepo={iRepo} 
       collectionRepo={cRepo}
+      userId={$sessionStore.user.id}
       isUserFree={false}
     />
   </Route>

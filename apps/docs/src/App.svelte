@@ -8,6 +8,7 @@
   import Menu from "./Docs/Pages/Menu.svelte"
   import UserMenu from "./Docs/Pages/UserMenu.svelte"
   import Header from "./Docs/Pages/Header.svelte"
+  import Collapsable from "./Docs/Pages/Collapsable.svelte"
 
   // Collection
   import CollectionButton from "./Docs/Pages/CollectionButton.svelte"
@@ -21,7 +22,7 @@
   import InputEmoji from "./Docs/Pages/InputEmoji.svelte"
 
 
-  let CurrentComponent = Button
+  let CurrentComponent = Collapsable
   
   const componentMap = [{
     name: "Logo",
@@ -44,6 +45,9 @@
   }, {
     name: "Header",
     component: Header
+  }, {
+    name: "Collapsable",
+    component: Collapsable
   }, {
     name: "CollectionButton",
     component: CollectionButton

@@ -1,0 +1,110 @@
+@import "variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?3bv6cm');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?3bv6cm#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?3bv6cm') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?3bv6cm') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?3bv6cm##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Export {
+  &:before {
+    content: $icon-Export; 
+  }
+}
+.icon-List {
+  &:before {
+    content: $icon-List; 
+  }
+}
+.icon-XCircle {
+  &:before {
+    content: $icon-XCircle; 
+  }
+}
+.icon-add {
+  &:before {
+    content: $icon-add; 
+  }
+}
+.icon-arrow-left-r {
+  &:before {
+    content: $icon-arrow-left-r; 
+  }
+}
+.icon-chevron-down-o {
+  &:before {
+    content: $icon-chevron-down-o; 
+  }
+}
+.icon-chevron-right-r {
+  &:before {
+    content: $icon-chevron-right-r; 
+  }
+}
+.icon-controller {
+  &:before {
+    content: $icon-controller; 
+  }
+}
+.icon-layout-grid-small {
+  &:before {
+    content: $icon-layout-grid-small; 
+  }
+}
+.icon-more-vertical-alt {
+  &:before {
+    content: $icon-more-vertical-alt; 
+  }
+}
+.icon-more-vertical-r {
+  &:before {
+    content: $icon-more-vertical-r; 
+  }
+}
+.icon-rename {
+  &:before {
+    content: $icon-rename; 
+  }
+}
+.icon-ShoppingBag {
+  &:before {
+    content: $icon-ShoppingBag; 
+  }
+}
+.icon-smile {
+  &:before {
+    content: $icon-smile; 
+  }
+}
+.icon-spinner-alt {
+  &:before {
+    content: $icon-spinner-alt; 
+  }
+}
+.icon-trash-empty {
+  &:before {
+    content: $icon-trash-empty; 
+  }
+}
+

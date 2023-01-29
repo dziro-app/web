@@ -17,7 +17,7 @@ import Wishlist from '../../../../../packages/ui/lib//Wishlist.svelte'
             </tr>
         </thead>
         <tbody>
-              
+                
             <tr>
                 <td>collectionRepo</td>
                 <td>-</td>
@@ -30,6 +30,13 @@ import Wishlist from '../../../../../packages/ui/lib//Wishlist.svelte'
                 <td>-</td>
                 <td>-</td>
                 <td>Repositorio de items</td>
+            </tr>
+        
+            <tr>
+                <td>userId</td>
+                <td>object</td>
+                <td>null</td>
+                <td>-</td>
             </tr>
         
             <tr>

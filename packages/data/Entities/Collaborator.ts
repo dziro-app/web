@@ -1,5 +1,5 @@
 export type Collaborator = {
-  userId: string,
-  roles: string[],
+  user_id: string,
+  can_edit: boolean,
   createdAt: Date
 }

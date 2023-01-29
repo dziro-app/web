@@ -19,11 +19,20 @@ export class Fetch {
     return headers
   }
 
+  processResponse = async (res: Response) => {
+    const result = await res.json() 
+    if(res.status >= 200 && res.status < 300) {
+      return result
+    }
+
+    throw Error(JSON.stringify(result))
+  }
+
   get(url: string, options: Object={}) {
     return fetch(`${this.base}${url}`, {
       headers: this.buildJsonHeader(),
       ...options
-    }).then(res => res.json())
+    }).then(this.processResponse)
   }
 
   post(url: string, payload:Object = {}) {
@@ -33,7 +42,7 @@ export class Fetch {
       headers: this.buildJsonHeader(),
       credentials: "include",
       mode: "cors",
-    }).then(res => res.json())
+    }).then(this.processResponse)
   }
 
   patch(url: string, payload: Object = {}) {
@@ -41,13 +50,13 @@ export class Fetch {
       method: 'PATCH',
       body: JSON.stringify(payload),
       headers: this.buildJsonHeader(),
-    }).then(res => res.json())
+    }).then(this.processResponse)
   }
 
   remove(url: string) {
     return fetch(`${this.base}${url}`, {
       method: 'DELETE',
       headers: this.buildJsonHeader(),
-    }).then(res => res.json())
+    }).then(this.processResponse)
   }
 }

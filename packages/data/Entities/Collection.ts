@@ -7,11 +7,11 @@ export type SingleCollection = {
   name: string
   color: string
   emoji: string
-  ownerId: number
-  createdAt: Date
+  owner_id: string
+  created_at: Date
 }
 
 export type Collection = SingleCollection & {
-  collaborators: Collaborator[]
+  shared_with: Collaborator[]
   items: Item[],
 }

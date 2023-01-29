@@ -3,8 +3,9 @@ export type OauthRedirect = {
 }
 
 export type User = {
-  username: string
-  profile: string
+  username: string // User name text
+  profile: string // Profile image
+  id: string // User id from token
 }
 
 export type Token = {

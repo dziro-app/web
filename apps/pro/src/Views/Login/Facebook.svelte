@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from "ui"
   import type { Session } from "data/Repository/session"
+  import type { User } from 'data/Dtos/Session'
 
   export let repository: Session
 
@@ -11,12 +12,13 @@
     loading = true
     FB.login((response) => {
       if (response.status === "connected") {
-        console.log(response.authResponse)
         const code = response.authResponse.accessToken
         repository.getToken("facebook", code)
           .then(res => {
-            console.log(res)
-            localStorage.setItem(localStorageUserKey, JSON.stringify(res.user))
+            const claimPart = res.access_token.split(".")[1]
+            const id = JSON.parse(atob(claimPart)).sub
+            const user: User = { id, ...res.user} 
+            localStorage.setItem(localStorageUserKey, JSON.stringify(user))
             location.href = "/"
           })
           .catch((e) => {

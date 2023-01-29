@@ -2,6 +2,7 @@
 
 <script lang="ts" context="module" >
   export type IconType = 
+  "Export" |
   "List" |
   "XCircle" |
   "arrow-left-r" | 
@@ -47,6 +48,7 @@
 <!--E
   <Icon name='List' color='#aaa' />
   <Icon name='XCircle' color='#aaa' />
+  <Icon name='Export' color='#aaa' />
   <Icon name='arrow-left-r' color='#aaa' />
   <Icon name='smile' color='#aaa' />
   <Icon name='spinner-alt' color='#aaa' />
