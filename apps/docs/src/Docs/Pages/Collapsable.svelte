@@ -21,11 +21,18 @@ import Collapsable from '../../../../../packages/ui/lib//Collapsable.svelte'
             </tr>
         </thead>
         <tbody>
-          
+            
             <tr>
                 <td>title</td>
                 <td>string</td>
                 <td>""</td>
+                <td>-</td>
+            </tr>
+        
+            <tr>
+                <td>isOpen</td>
+                <td>boolean</td>
+                <td>false</td>
                 <td>-</td>
             </tr>
         

@@ -12,16 +12,20 @@
   export let name: string
   export let value = ""
 
-  let showOptions = false
+  let showOptions = true
   let pickerLib
 
   const onChange = (e) => {
-    console.log(e.native)
     value = e.native
     showOptions = false
   }
 
-  const picker = new Picker({ data, "locale": "es", onEmojiSelect: onChange })
+  const picker = new Picker({ 
+    data, 
+    "locale": "es", 
+    onEmojiSelect: onChange,
+    dynamicWidth: true
+  })
 
   onMount(() => {
     pickerLib.appendChild(picker)
@@ -32,21 +36,19 @@
 <div class="EmojiInput">
   <BaseInput label={label} name={name} >
     <button class="EmojiInput__trigger" type="button" on:click={() => {showOptions = !showOptions}}>
-      <!-- <div class="display" > -->
-        <span>
-        {#if value === ""}
-          <span class="placeholder">{label}</span>
-        {:else}
-          {value}
-          {/if}
-      </span>
-      <div class="EmojiInput__trigger__icon" class:open={showOptions}>
-        <Icon 
-          size={22} 
-          color="inherit" 
-          name="chevron-down-o" />
-        </div>
-      <!-- </div> -->
+      <span>
+      {#if value === ""}
+        <span class="placeholder">{label}</span>
+      {:else}
+        {value}
+        {/if}
+    </span>
+    <div class="EmojiInput__trigger__icon" class:open={showOptions}>
+      <Icon 
+        size={22} 
+        color="inherit" 
+        name="chevron-down-o" />
+      </div>
     </button>
       
       <div class="EmojiInput__pickerLib" class:EmojiInput__pickerLib--active={showOptions}  bind:this={pickerLib} ></div>
@@ -101,6 +103,11 @@
       display: none;
       // position: absolute;
       z-index: 1;
+
+      :global(em-emoji-picker) {
+        width: 100%;
+      }
+
       &--active {
         display: block;
       }
