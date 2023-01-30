@@ -14,7 +14,7 @@
   <div class="SideBar__side" class:SideBar__side--show={showMobileSideBar}>
     <slot name="side"></slot>
   </div>
-  <div class="SideBar__content">
+  <div class="SideBar__content" class:SideBar__content--height-limited={showMobileSideBar} >
     <slot> </slot>
   </div>
 </div>
@@ -53,7 +53,15 @@
         width: 100%;
         z-index: 3;
         &--show {
+          overflow-y: scroll;
+          max-height: calc(100vh - sizing.$nav-height);
           transform: translate3d(0, 0, 0);
+        }
+      }
+      &__content {
+        &--height-limited {
+          max-height: calc(100vh - sizing.$nav-height);
+          overflow-y: hidden;
         }
       }
     }
