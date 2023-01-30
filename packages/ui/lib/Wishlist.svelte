@@ -2,7 +2,6 @@
   import { onMount } from "svelte"
 
   // Entities & Dtos
-  import type { CreateCollectionDto } from "../../data/Dtos/Collection"
   import type { CreateItemDto } from "../../data/Dtos/Item"
   import type { Item as ItemEntity } from "../../data/Entities/Item"
   import type { Collection as CollectionEntity} from "../../data/Entities/Collection"
@@ -11,11 +10,13 @@
   import type { Item as ItemRepo } from "../../data/Repository/item"
   // Components
   import Button from "./Button.svelte"
+  import { toggleSideBar } from "ui/lib/Header.svelte"
   import Collapsable from "./Collapsable.svelte"
   import CollectionDetail from "./CollectionDetail.svelte"
   import CollectionButton from "./CollectionButton.svelte"
   import CollectionAddItem from "./CollectionAddItem.svelte"
   import CollectionItem from "./CollectionItem.svelte"
+  import SideBar from "./Sidebar.svelte"
   import type {Option} from "./Menu.svelte"
   // Modals
   import ItemExtendedModal from "../modals/ItemExtended.svelte"
@@ -28,16 +29,15 @@
 
   export let collectionRepo: CollectionRepo // Repositorio de colecciones
   export let itemRepo: ItemRepo // Repositorio de items
-  export let userId: null | string = null
-  export let isUserFree: boolean = true
+  export let userId: null | string = null // user Id is only present whenm there is session
 
   let selectedColection: number | null = null
-  let showMobileSideBar = false
   
-  // Flags for modals
-  let showCreateModal = false
-  let showEditModal = false
-  let showShareModal = false
+  // Flags for Collection modals
+  let showCreateCollectionModal = false
+  let showEditCollectionModal = false
+  let showShareCollectionModal = false
+  // Flags for Item modals
   let showAddItemModal = false
   let showDeleteColletionModal = false
   let editAttemptItem: ItemEntity | null = null
@@ -59,29 +59,7 @@
   const selectCollection = (collection: CollectionEntity) => {
     const index = $collectionStore.findIndex(c => c.id === collection.id)
     selectedColection = index; 
-    showMobileSideBar = false 
-  }
-
-  const createCollection = async (data: CreateCollectionDto) => {
-    try {
-      const created = await collectionRepo.create(data)
-      collectionStore.addCollection(created)
-      showCreateModal = false
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  const editCollection = async(data: CreateCollectionDto) => {
-    try {
-      let current = $collectionStore[selectedColection]
-      const updated = await collectionRepo.update(current.id, data)
-      collectionStore.updateCollection(selectedColection, updated)
-      showEditModal = false
-    } catch (e) {
-      console.log(e)
-    }
+    toggleSideBar()
   }
 
   const deleteCollection = async () => {
@@ -92,6 +70,8 @@
       collectionStore.deleteCollection(current.id)
       if ( $collectionStore.length > 0) {
         selectedColection = 0
+      } else {
+        selectedColection = null
       }
       showDeleteColletionModal = false
     } catch (e) {
@@ -151,12 +131,12 @@
     'id': 0,
     'icon': 'rename',
     'text': 'Editar', 
-    onClick: ()=>{ showEditModal = true }
+    onClick: ()=>{ showEditCollectionModal = true }
   }, {
     'id': 1,
     'icon': 'Export',
     'text': 'Compartir', 
-    onClick: () => { showShareModal = true }
+    onClick: () => { showShareCollectionModal = true }
   }, 
   {
     'id': 2,
@@ -177,40 +157,38 @@
 
   onMount(() => {
     load()
-    window.addEventListener("handleSideBar", () => {
-      showMobileSideBar = !showMobileSideBar
-    })
   })
 
 </script>
 
 <div id='WhishListsView' >
   <!-- Modals -->
-  {#if showCreateModal}
+  {#if showCreateCollectionModal}
     <CollectionModal
-      defaultValues={null}
-      onSubmit={createCollection}
-      onClose={() => { showCreateModal = false }} />
+      mode="create"
+      repository={collectionRepo}
+      onSubmit={() => { showCreateCollectionModal = false; if(selectedColection === null) selectedColection = 0 }}
+      onClose={() => { showCreateCollectionModal = false }} />
   {/if}
 
-  {#if showEditModal}
+  {#if showEditCollectionModal}
     <CollectionModal
-      submitText="GUARDAR"
-      title="Editar colección"
+      mode="edit"
+      repository={collectionRepo}
       defaultValues={$collectionStore[selectedColection]}
-      onSubmit={editCollection}
-      onClose={() => { showEditModal = false }} />
+      onSubmit={() => { showEditCollectionModal = false }}
+      onClose={() => { showEditCollectionModal = false }} />
   {/if}
 
-  {#if showShareModal}
+  {#if showShareCollectionModal}
     <ShareCollectionModal
       collectionRepo={collectionRepo}
       collectionId={$collectionStore[selectedColection].id}
-      onClose={ () => { showShareModal = false } }
+      onClose={ () => { showShareCollectionModal = false } }
     />
   {/if}
 
-  {#if isUserFree}
+  {#if !userId}
     {#if showAddItemModal}
       <ItemExtendedModal
         onSubmit={createItem}
@@ -257,75 +235,87 @@
   {/if}
 
   <!-- Content Layout -->
-
-  <div class='collectionList' class:show={showMobileSideBar} >
-    <div class='buttonsList' >
-      <Button color="#000" on:click={() => showCreateModal=true} >
-        Crear colección
-      </Button>
-    </div>
-    <div class="collectionsButtonsList">
-
-      {#if ownedCollections.length > 0}
-        <Collapsable title="Mis colecciones">
-          <div class="collectionsButtonsList">
-            {#each ownedCollections as collection}
-              <CollectionButton 
-                name={collection.name} 
-                color={collection.color}
-                emoji={collection.emoji}
-                on:click={() => { selectCollection(collection) }} />
-            {/each}
-          </div>
-        </Collapsable>
-      {/if}
-
-      {#if sharedCollections.length > 0}
-        <Collapsable title="Compartidas">
-          <div class="collectionsButtonsList">
-            {#each sharedCollections as collection}
-              <CollectionButton 
-                name={collection.name} 
-                color={collection.color}
-                emoji={collection.emoji}
-                on:click={() => { selectCollection(collection) }} />
-            {/each}
-          </div>
-        </Collapsable>
-      {/if}
-    </div>
-  </div>
-
-
   {#if selectedColection !== null}
-    <CollectionDetail 
-      name={$collectionStore[selectedColection].name} 
-      color={$collectionStore[selectedColection].color}
-      emoji={$collectionStore[selectedColection].emoji}
-      options={menuOptions} >
-      <div class="itemList">
-        {#each $collectionStore[selectedColection].items as item}
-        <CollectionItem
-          options={[{
-            'display': 'Editar',
-            onClick: () => { editAttemptItem = item }
-          }, {
-            'display': item.obtained ? 'Pendiente':'Comprado',
-            onClick: () => {toggleBuyedItem(item.id)}
-          }, {
-            'display': 'Eliminar',
-            onClick: () => { deleteItemAttemptModal = item }
-          }]}
-          image={item.image}
-          name={item.title}
-          price={item.price}
-          obtained={item.obtained}
-          website={item.website}
-        />
-        {/each}
-        <CollectionAddItem  on:click={() => { showAddItemModal = true }} />
+    <SideBar>
+      <div slot="side" class="side__content" >
+        <div class='buttonsList' >
+          <Button color="#000" on:click={() => showCreateCollectionModal=true} >
+            Crear colección
+          </Button>
+        </div>
+        <div class="collectionsButtonsList">
+  
+          {#if ownedCollections.length > 0}
+            <Collapsable title="Mis colecciones">
+              <div class="collectionsButtonsList">
+                {#each ownedCollections as collection}
+                  <CollectionButton 
+                    name={collection.name} 
+                    color={collection.color}
+                    emoji={collection.emoji}
+                    on:click={() => { selectCollection(collection) }} />
+                {/each}
+              </div>
+            </Collapsable>
+          {/if}
+  
+          {#if sharedCollections.length > 0}
+            <Collapsable title="Compartidas">
+              <div class="collectionsButtonsList">
+                {#each sharedCollections as collection}
+                  <CollectionButton 
+                    name={collection.name} 
+                    color={collection.color}
+                    emoji={collection.emoji}
+                    on:click={() => { selectCollection(collection) }} />
+                {/each}
+              </div>
+            </Collapsable>
+          {/if}
+        </div>
       </div>
-    </CollectionDetail> 
+      <CollectionDetail
+        name={$collectionStore[selectedColection].name} 
+        color={$collectionStore[selectedColection].color}
+        emoji={$collectionStore[selectedColection].emoji}
+        options={menuOptions} >
+        <div class="itemList">
+          {#each $collectionStore[selectedColection].items as item}
+          <CollectionItem
+            options={[{
+              'display': 'Editar',
+              onClick: () => { editAttemptItem = item }
+            }, {
+              'display': item.obtained ? 'Pendiente':'Comprado',
+              onClick: () => {toggleBuyedItem(item.id)}
+            }, {
+              'display': 'Eliminar',
+              onClick: () => { deleteItemAttemptModal = item }
+            }]}
+            image={item.image}
+            name={item.title}
+            price={item.price}
+            obtained={item.obtained}
+            website={item.website}
+          />
+          {/each}
+          <CollectionAddItem  on:click={() => { showAddItemModal = true }} />
+        </div>
+      </CollectionDetail>
+    </SideBar>
+    
+  {:else}
+    <div class="empty__whislists">
+      <h1> Bienvenido </h1>
+
+      <p> Empieza creando una nueva colección </p>
+
+      <div>
+        <Button color="#000" on:click={() => showCreateCollectionModal=true} >
+          Crear colección
+        </Button>
+      </div>
+    </div>
   {/if}
 
 
@@ -335,22 +325,29 @@
   @use '../Styles/_colors.scss';
   @use '../Styles/_breakpoints.scss';
   @use '../Styles/_sizing.scss';
-
-  @import '../Styles/_texts.scss';
+  @use '../Styles/_texts.scss';
 
   #WhishListsView {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    .collectionList {
-      background: colors.$white;
-      box-sizing: border-box;
-      padding: sizing.sizing(2);
-      box-shadow: inset -2px 0 8px #cacaca;
+
+    .empty__whislists {
+      text-align: center;
+      display: grid;
+      height: 100%;
+      h1 {
+        @include texts.title;
+        align-self: center;
+      }
+      p {
+        @include texts.normal-text;
+      }
+    }
+
+    .side__content {
       .buttonsList {
         display: flex;
         align-content: center;
         justify-content: center;
-        padding-bottom: 32px;
+        padding: 32px 0;
       }
       .collectionsButtonsList {
         text-align: center;
@@ -369,22 +366,6 @@
 
   @media screen and (max-width: breakpoints.$mobile) {
     #WhishListsView {
-      grid-template-columns: 1fr;
-
-      .collectionList {
-        background: colors.$white;
-        position: fixed;
-        z-index: 3;
-        height: calc(100vh - sizing.$nav-height);
-        transform: translate3d(-100%, 0, 0);
-        transition: all 0.4s;
-        overflow-x: scroll;
-        width: 100%;
-        &.show {
-          display: block;
-          transform: translate3d(0, 0, 0);
-        }
-      }
       .itemList {
         justify-content: center;
       }

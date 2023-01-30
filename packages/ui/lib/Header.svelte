@@ -1,4 +1,11 @@
 <!--D Header -->
+<script context="module">
+  let event
+  export const toggleSideBar = () => {
+    window.dispatchEvent(event)
+  }
+</script>
+
 <script lang="ts">
   import { onMount } from 'svelte'
   import Logo from './Logo.svelte'
@@ -8,14 +15,9 @@
   export let username: string = "" // Nombre del usuario
   export let picture: string = "" // Url del perfil del usuario
   export let options = [] // Opciones que se pasarán al componente de menú
-  
-  let event
 
-  const handleSideBar = () => {
-    window.dispatchEvent(event)
-  }
   onMount(() => {
-    event = new window.CustomEvent("handleSideBar")
+    event = new window.CustomEvent("toggleSideBar")
   })
 
 </script>
@@ -23,7 +25,7 @@
 <header>
   {#if username && picture}
     <div class="mobile">
-      <Icon name='List' size={15} color="inherit" on:click={handleSideBar} />
+      <Icon name='List' size={15} color="inherit" on:click={toggleSideBar} />
     </div>
   {/if}
 

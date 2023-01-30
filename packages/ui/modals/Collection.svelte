@@ -1,70 +1,68 @@
-<script lang='ts'>
-  import * as yup from "yup"
-
-  import type {CreateCollectionDto} from "../../data/Dtos/Collection"
+<!-- 
+  * This modal uses collection form and repository prop send data to backend api
   
-  export let title: string = "Nueva colección"
-  export let submitText: string = "CREAR"
-  export let onClose: () => void
-  export let onSubmit: (data: CreateCollectionDto) => void
-  export let defaultValues: CreateCollectionDto | null
-
+  * If EDIT mode is used, defaultValues should be of the type collection Entity
+ -->
+<script lang='ts'>
+  import Danger from "./Danger.svelte"
   import BaseModal from "./ModalBase.svelte"
 
-  import {
-    Button,
-    InputText,
-    InputEmoji,
-    InputColor
-  } from "../index"
-  import Danger from "./Danger.svelte"
+  import type { Collection as CollectionEntity} from "data/Entities/Collection"
+  import type {CreateCollectionDto} from "data/Dtos/Collection"
+  import type { Collection as CollectionRepo } from "data/Repository/collection"
+  import { collectionStore } from "data/Store/collection"
 
-  const schema = yup.object().shape({
-    name: yup.string().required("El nombre no puede ser vacío"),
-    emoji: yup.string().required("El emoji no puede estar vacío"),
-    color: yup.string().required("El color no puede estar vacío"),
-  })
+  export let mode: "create" | "edit"
+  export let repository: CollectionRepo
+  export let defaultValues: CollectionEntity | null = null
+  export let onClose: () => void
+  export let onSubmit: () => void
 
-  let values: CreateCollectionDto = {
-    name: "",
-    emoji: "",
-    color: ""
-  }
+  import CollectionForm from  "../forms/collection.svelte"
 
-  if (defaultValues) {
-    values.name = defaultValues.name
-    values.color = defaultValues.color
-    values.emoji = defaultValues.emoji
-  }
-
+  let texts = new Map([
+    ["create", {
+      title: "Nueva colección",
+      buttonText: "Crear"
+    }],
+    ["edit", {
+      title: "Editar colección",
+      buttonText: "Editar"
+    }],
+  ])
   let errors = []
+  let fetching = false
 
-  const validateForm = async (e: Event) => {
+  const onValidated = async (data: CreateCollectionDto) => {
+    fetching = true
     try {
-      await schema.validate(values, { abortEarly: false })
-      onSubmit(values)
-    } catch (e) {
-      errors = e.errors
+      if (mode === "create") {
+        const created = await repository.create(data)
+        collectionStore.addCollection(created)
+      } else if (mode === "edit") {
+        const updated = await repository.update(defaultValues.id, data)
+        collectionStore.updateCollection(defaultValues.id, updated)
+      }
+      onSubmit()
     }
+    catch (e) {
+      errors = [e]
+    }
+    fetching = false
   }
 
 </script>
 
 
-<BaseModal title={title} onClose={onClose} >
-  <div class="NewCollection">
+<BaseModal title={texts.get(mode).title} onClose={onClose} >
+  <div class="CollectionForm">
     <p>Agrega la información de la colección.</p>
     <Danger errors={errors} />
-    <form autocomplete="off" on:submit|preventDefault={validateForm} >
-      <InputText label="Nombre" name="name" bind:value={values.name} />
-      <InputEmoji label="Emoji" name="emoji" bind:value={values.emoji} />
-      <InputColor label="Color" name="color" bind:value={values.color} />
-      <div class="buttonWrapper">
-        <Button type="submit" >
-          {submitText}
-        </Button>  
-      </div>
-    </form>
+    <CollectionForm
+      loading={fetching}
+      defaultValues={defaultValues} submitText={texts.get(mode).buttonText}
+      onErrors={(detected) => { errors = detected }} onValidated={onValidated}
+    /> 
   </div>
 </BaseModal>
 
@@ -75,17 +73,6 @@
   p {
     @include texts.subtitle;
     text-align: center;
-  }
-  form {
-    display: grid;
-    grid-row-gap: 28px;
-    margin: 0 auto;
-    width: 300px;
-
-    .buttonWrapper {
-      margin: 8px 0;
-      text-align: center;
-    }
   }
   
 </style>

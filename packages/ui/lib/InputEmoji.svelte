@@ -1,48 +1,57 @@
 <!--D Componente para emoji -->
 <script type="ts">
-  import emojis from "emojis-list"
+  // import emojis from "emojis-list"
+  import { onMount } from "svelte"
   import Icon from "./Icon.svelte"
+  import data from "@emoji-mart/data"
+
+  import { Picker } from "emoji-mart"
+  import BaseInput from "./InputBase.svelte"
+
   export let label: string = ""
   export let name: string
   export let value = ""
 
   let showOptions = false
+  let pickerLib
 
-  const onChange = (emojiValue) => {
-    value = emojiValue
+  const onChange = (e) => {
+    console.log(e.native)
+    value = e.native
     showOptions = false
   }
 
-  import BaseInput from "./InputBase.svelte"
+  const picker = new Picker({ data, "locale": "es", onEmojiSelect: onChange })
+
+  onMount(() => {
+    pickerLib.appendChild(picker)
+  })
+
 </script>
 
 <div class="EmojiInput">
   <BaseInput label={label} name={name} >
-    <div class="display" >
-      <span>
+    <button class="EmojiInput__trigger" type="button" on:click={() => {showOptions = !showOptions}}>
+      <!-- <div class="display" > -->
+        <span>
         {#if value === ""}
           <span class="placeholder">{label}</span>
         {:else}
           {value}
-        {/if}
+          {/if}
       </span>
-      <div class="trigger" class:open={showOptions}>
+      <div class="EmojiInput__trigger__icon" class:open={showOptions}>
         <Icon 
-          on:click={() => {showOptions = !showOptions}}
           size={22} 
           color="inherit" 
           name="chevron-down-o" />
-    </div>
-    </div>
-
-    {#if showOptions}
-      <div class="options">
-        {#each emojis as emoji}
-        <button type="button" class="option" on:click={() => { onChange(emoji) }}> {emoji} </button>
-        {/each}
-      </div>
-    {/if}
-    <input
+        </div>
+      <!-- </div> -->
+    </button>
+      
+      <div class="EmojiInput__pickerLib" class:EmojiInput__pickerLib--active={showOptions}  bind:this={pickerLib} ></div>
+      
+      <input
       readonly
       id={name} name={name} placeholder={label} 
       bind:value={value} type="hidden">
@@ -57,23 +66,24 @@
 
   .EmojiInput{
     position: relative;
-    .display {
+
+    &__trigger {
+      @include reset.button;
       @include input;
+
       display: flex;
       align-items: center;
       color: colors.$base-color-gray-60;
       justify-content: space-between;
+      width: 100%;
 
       &:hover {
         color: colors.$base-color-black-80;
       }
 
-      .trigger {
-        @include reset.button;
-
+      &__icon {
         align-items: center;
         transition: all 0.3s;
-        border-radius: 50%;
         cursor: pointer;
         justify-content: center;
         display: flex;
@@ -83,37 +93,21 @@
         &.open {
           transform: rotateZ(180deg);
         }
+      
+      }
+    }
+
+    &__pickerLib {
+      display: none;
+      // position: absolute;
+      z-index: 1;
+      &--active {
+        display: block;
       }
     }
 
     .placeholder {
       color: colors.$base-color-gray-60;
-    }
-    
-
-    .options {
-      background: colors.$base-color-white-50;
-      display: flex;
-      flex-wrap: wrap;
-      padding: sizing(1);
-      font-size: 30px;
-      max-height: 200px;
-      left: 0;
-      overflow-y: scroll;
-      position: absolute;
-      top: 100%;
-      z-index: 2;
-      
-      .option {
-        @include reset.button;
-
-        cursor: pointer;
-        padding: sizing(1);
-        border-radius: 5px;
-        &:hover {
-          outline: 1px solid colors.$base-color-gray-60;
-        }
-      }
     }
   }
 </style>

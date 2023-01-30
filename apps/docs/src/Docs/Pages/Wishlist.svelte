@@ -17,7 +17,7 @@ import Wishlist from '../../../../../packages/ui/lib//Wishlist.svelte'
             </tr>
         </thead>
         <tbody>
-                
+              
             <tr>
                 <td>collectionRepo</td>
                 <td>-</td>
@@ -36,14 +36,7 @@ import Wishlist from '../../../../../packages/ui/lib//Wishlist.svelte'
                 <td>userId</td>
                 <td>object</td>
                 <td>null</td>
-                <td>-</td>
-            </tr>
-        
-            <tr>
-                <td>isUserFree</td>
-                <td>boolean</td>
-                <td>true</td>
-                <td>-</td>
+                <td>user Id is only present whenm there is session</td>
             </tr>
         
         </tbody>

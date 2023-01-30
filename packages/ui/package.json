@@ -12,8 +12,9 @@
     "main": "./index.js",
     "types": "./index.js",
     "dependencies": {
+        "@emoji-mart/data": "^1.1.2",
         "color": "^4.2.3",
-        "emojis-list": "^3.0.0",
+        "emoji-mart": "^5.5.2",
         "typescript": "^4.6.4",
         "yup": "^0.32.11"
     }

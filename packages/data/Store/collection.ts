@@ -18,9 +18,12 @@ function createCollection() {
       newCollection.push(created)
       return newCollection
     }),
-    updateCollection: (index: number, updated: Collection) => update(collections => {
+    updateCollection: (id: string, updated: Collection) => update(collections => {
       const updatedCollections = collections.slice(0)
-      updatedCollections[index] = updated
+      const found = updatedCollections.findIndex(item => (item.id === id))
+      if (found !== -1) {
+        updatedCollections[found] = updated
+      }
       return updatedCollections
     }),
     deleteCollection: (id: string) => update(collections => {

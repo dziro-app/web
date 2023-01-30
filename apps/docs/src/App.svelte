@@ -22,7 +22,7 @@
   import InputEmoji from "./Docs/Pages/InputEmoji.svelte"
 
 
-  let CurrentComponent = Collapsable
+  let CurrentComponent = InputEmoji
   
   const componentMap = [{
     name: "Logo",

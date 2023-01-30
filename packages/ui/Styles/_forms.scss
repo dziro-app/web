@@ -1,0 +1,13 @@
+@mixin form {
+  form {
+    display: grid;
+    grid-row-gap: 28px;
+    margin: 0 auto;
+    width: 350px;
+
+    .buttonWrapper {
+      margin: 8px 0;
+      text-align: center;
+    }
+  }
+}

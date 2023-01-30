@@ -27,7 +27,7 @@
 
 </script>
 
-<div style={`background: ${colors.background}`}>
+<div style={`background: ${colors.background}; height: 100%`}>
   <div 
     class="header"
     style={`background: ${colors.main}`}>
