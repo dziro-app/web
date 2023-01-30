@@ -246,7 +246,7 @@
         <div class="collectionsButtonsList">
   
           {#if ownedCollections.length > 0}
-            <Collapsable title="Mis colecciones">
+            <Collapsable title="Mis colecciones" isOpen={true} >
               <div class="collectionsButtonsList">
                 {#each ownedCollections as collection}
                   <CollectionButton 

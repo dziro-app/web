@@ -2,8 +2,9 @@
 <script lang="ts">
   import Icon from "./Icon.svelte"
   export let title: String = ""
+  export let isOpen: boolean = false
 
-  let show = false
+  let show = isOpen
 
 </script>
 
