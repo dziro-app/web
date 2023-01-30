@@ -12,7 +12,7 @@
   export let name: string
   export let value = ""
 
-  let showOptions = true
+  let showOptions = false
   let pickerLib
 
   const onChange = (e) => {
