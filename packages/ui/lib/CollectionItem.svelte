@@ -1,13 +1,16 @@
 <!--D Componte para mostrar un artículo -->
-<script lang="ts">
-  import { fly } from "svelte/transition"
-  import Icon from "./Icon.svelte"
-  import Button from "./Button.svelte"
-
-  type Option = {
+<script context="module" lang="ts" >
+  export type Option = {
     display: string,
     onClick: Function
   }
+
+</script>
+
+<script lang="ts">
+  import { fly } from "svelte/transition"
+  import Icon from "./Icon.svelte"
+
 
   export let image: string // Imagen del artículo
   export let name: string // Nombre del artículo
@@ -44,18 +47,20 @@
           <div class="tag">Comprado</div>
         {/if}
       </div>
-      <button class="menu" on:click|preventDefault={() => { showOptions = !showOptions }} >
-        <div class="menuTrigger">
-          <Icon size={22} name="more-vertical-alt" color="#fff" />
-        </div>
-        {#if showOptions}
-          <div transition:fly="{{y: -10}}" class="options" >
-            { #each options as option }
-              <button class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </button>
-            {/each}
+      {#if options.length > 0}
+        <button class="menu" on:click|preventDefault={() => { showOptions = !showOptions }} >
+          <div class="menuTrigger">
+            <Icon size={22} name="more-vertical-alt" color="#fff" />
           </div>
-        {/if}
-      </button>
+          {#if showOptions}
+            <div transition:fly="{{y: -10}}" class="options" >
+              { #each options as option }
+                <button class="option" on:click|stopPropagation|preventDefault={() => onDefaultOptionClick(option)} > {option.display} </button>
+              {/each}
+            </div>
+          {/if}
+        </button>
+      {/if}
 
     </div>
     <div class="Item__image" >
@@ -102,7 +107,7 @@
     display: grid;
     grid-template-rows: 50px 175px 140px;
     overflow: hidden;
-    position: relative;
+    // position: relative;
     transition: all 0.3s;
 
     .tag {
@@ -114,10 +119,9 @@
 
     &__header {
       display: grid;
-      grid-template-columns: 1fr 22px;
-      padding: 0 sizing.sizing(2);
-      position: relative;
-      z-index: 2;
+      grid-template-columns: 1fr 30px;
+      padding: 0 sizing.sizing(1);
+
       .menu {
         @include menu;
         @include reset.button;
@@ -139,6 +143,7 @@
         .options {
           @include options;
           top: 110%;
+          z-index: 1;
         }
         .option {
           @include reset.button;
@@ -153,6 +158,8 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      position: relative;
+      z-index: 0;
       img {
         transition: all 0.4s;
         display: block;

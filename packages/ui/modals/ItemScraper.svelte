@@ -7,16 +7,30 @@
   
   // Types
   import type {CreateItemDto} from "../../data/Dtos/Item"
+  import type { Item as ItemEntity } from "../../data/Entities/Item"
   import type { Item as ItemRepo } from "../../data/Repository/item"
 
   // Component props
-  export let title: string = "Nuevo artículo"
+  export let mode: "create" | "edit"
+  export let collectionId: string
   export let onClose: () => void
-  export let onSubmit: (data: CreateItemDto) => void
-  export let defaultValues: CreateItemDto | null = null
+  export let onSubmit: (data: ItemEntity) => void
+  export let defaultValues: ItemEntity | null = null
   export let itemRepo: ItemRepo
 
+  let texts = new Map([
+    ["create", {
+      title: "Nuevo artículo",
+      buttonText: "Crear"
+    }],
+    ["edit", {
+      title: "Editar artículo",
+      buttonText: "Editar"
+    }],
+  ])
+
   let errors = []
+  let fetching = false
   let step = (defaultValues === null ? 0 : 1)
 
   const onUrlScraped = (values) => {
@@ -25,9 +39,36 @@
     step ++
   }
 
+  const convertItemToEdit = (item: ItemEntity) : CreateItemDto  => {
+    let aux : CreateItemDto = {
+      title: item.title,
+      image: item.image,
+      website: item.website,
+      price: `${item.price}`
+    }
+    return aux
+  }
+
+  const createItem = async (itemDto: CreateItemDto) => {
+    fetching = true
+    try {
+      if (mode === "create") {
+        const newItem = await itemRepo.create(collectionId, itemDto)
+        onSubmit(newItem)
+      } else if (mode === "edit") {
+        const updatedItem = await itemRepo.update(defaultValues.id, itemDto)
+        onSubmit(updatedItem)
+      }
+    }
+    catch (e) {
+      errors = [e]
+    }
+    fetching = false
+  }
+
 </script>
 
-<BaseModal title={title} onClose={onClose} >
+<BaseModal title={texts.get(mode).title} onClose={onClose} >
   <Danger errors={errors} />
 
   {#if step == 0}
@@ -40,9 +81,9 @@
 
   {#if step == 1}
     <ArtileForm  
-      onSubmit={(values) => onSubmit(values)} 
+      onSubmit={(values) => createItem(values)} 
       onError={ (e) => errors = e}
-      defaultValues={defaultValues}
+      defaultValues={convertItemToEdit(defaultValues)}
     />
   {/if}
 

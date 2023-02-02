@@ -38,15 +38,17 @@
       {name}
     </h3>
     <div class="menu">
+      {#if options.length > 0}
       <div class="trigger">
         <Icon 
           on:click={() => { showOptions = !showOptions }}
           color={colors.text} />
       </div>
         {#if showOptions}
-        <div class="options">
-          <Menu options={options} onClick={onDefaultOptionClick} />
-        </div>
+          <div class="options">
+            <Menu options={options} onClick={onDefaultOptionClick} />
+          </div>
+        {/if}
       {/if}
     </div>
   </div>

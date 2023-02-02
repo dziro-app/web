@@ -10,15 +10,14 @@
   import type { Collection as CollectionEntity} from "data/Entities/Collection"
   import type {CreateCollectionDto} from "data/Dtos/Collection"
   import type { Collection as CollectionRepo } from "data/Repository/collection"
-  import { collectionStore } from "data/Store/collection"
+  import CollectionForm from  "../forms/collection.svelte"
 
   export let mode: "create" | "edit"
   export let repository: CollectionRepo
   export let defaultValues: CollectionEntity | null = null
   export let onClose: () => void
-  export let onSubmit: () => void
+  export let onSubmit: (data: CollectionEntity) => void
 
-  import CollectionForm from  "../forms/collection.svelte"
 
   let texts = new Map([
     ["create", {
@@ -38,12 +37,11 @@
     try {
       if (mode === "create") {
         const created = await repository.create(data)
-        collectionStore.addCollection(created)
+        onSubmit(created)
       } else if (mode === "edit") {
         const updated = await repository.update(defaultValues.id, data)
-        collectionStore.updateCollection(defaultValues.id, updated)
+        onSubmit(updated)
       }
-      onSubmit()
     }
     catch (e) {
       errors = [e]

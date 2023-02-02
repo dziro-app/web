@@ -13,6 +13,7 @@ import InputText from "./lib/InputText.svelte"
 import Loader from "./lib/Loader.svelte"
 import Logo from "./lib/Logo.svelte"
 import Menu from "./lib/Menu.svelte"
+import Sidebar from "./lib/Sidebar.svelte"
 import UserMenu from "./lib/UserMenu.svelte"
 import Wishlist from "./lib/Wishlist.svelte"
 
@@ -32,6 +33,7 @@ export {
   Loader,
   Logo,
   Menu,
+  Sidebar,
   UserMenu,
   Wishlist,
 }

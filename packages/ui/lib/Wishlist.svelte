@@ -27,6 +27,7 @@
   // Store
   import { collectionStore } from "../../data/Store/collection"
 
+
   export let collectionRepo: CollectionRepo // Repositorio de colecciones
   export let itemRepo: ItemRepo // Repositorio de items
   export let userId: null | string = null // user Id is only present whenm there is session
@@ -51,6 +52,7 @@
 
   const load = async () => {
     $collectionStore = await collectionRepo.list()
+    // console.log($collectionStore)
     if ( $collectionStore.length > 0) {
       selectedColection = 0
     }
@@ -96,7 +98,7 @@
   const updateItem = async(data: CreateItemDto) => {
     try {
       const updated = await itemRepo.update(editAttemptItem.id, data)
-      collectionStore.update(selectedColection, updated)
+      collectionStore.update($collectionStore[selectedColection].id, updated)
       editAttemptItem = null
     }
     catch (e) {
@@ -108,7 +110,7 @@
   const toggleBuyedItem = async(id: string) => {
     try {
       const updatedItem = await itemRepo.toggleObtained(id)
-      collectionStore.update(selectedColection, updatedItem)
+      collectionStore.update($collectionStore[selectedColection].id, updatedItem)
     }
     catch(e) {
       console.log(e)
@@ -127,23 +129,48 @@
     }
   }
 
-  const menuOptions: Option[] = [{
+  // Menus Options
+  const EditOption: Option = {
     'id': 0,
     'icon': 'rename',
     'text': 'Editar', 
     onClick: ()=>{ showEditCollectionModal = true }
-  }, {
+  }
+  const ExportOption: Option = {
     'id': 1,
     'icon': 'Export',
     'text': 'Compartir', 
     onClick: () => { showShareCollectionModal = true }
-  }, 
-  {
+  }
+  const DeleteOption: Option = {
     'id': 2,
     'icon': 'trash-empty',
     'text': 'Eliminar', 
     onClick: () => { showDeleteColletionModal = true }
-  }]
+  }
+
+  const getCollectionMenuOptions = (collection: CollectionEntity): Option[] => {
+    const menuOptions: Option[] = []
+
+    if (collection.owner_id === userId) {
+      menuOptions.push(EditOption)
+      menuOptions.push(ExportOption)
+      menuOptions.push(DeleteOption)
+    } else {
+
+      const me = collection.shared_with.filter(c => c.user_id === userId)
+      if (me.length > 0) {
+        if (me[0].can_edit) {
+          menuOptions.push(EditOption)
+          menuOptions.push(ExportOption)
+          menuOptions.push(DeleteOption)
+        }
+      }
+    }
+
+    return menuOptions
+  }
+
 
   const convertItemToEdit = (item: ItemEntity) : CreateItemDto  => {
     let aux : CreateItemDto = {
@@ -204,16 +231,19 @@
   {:else}
     {#if showAddItemModal}
       <ItemScraper
+        mode="create"
+        collectionId={$collectionStore[selectedColection].id}
         itemRepo={itemRepo}
-        onSubmit={createItem}
+        onSubmit={(created) => { collectionStore.addItem($collectionStore[selectedColection].id, created); showAddItemModal = false  }}
         onClose={() => { showAddItemModal = false }} />
     {/if}
     {#if editAttemptItem}
       <ItemScraper
-        title="Editar artículo"
-        defaultValues={convertItemToEdit(editAttemptItem)}
+        mode="edit"
         itemRepo={itemRepo}
-        onSubmit={updateItem}
+        defaultValues={editAttemptItem}
+        collectionId={$collectionStore[selectedColection].id}
+        onSubmit={(updated) => { collectionStore.update($collectionStore[selectedColection].id, updated); showAddItemModal = false  }}
         onClose={() => { editAttemptItem = null }} />
     {/if}
   {/if}
@@ -278,7 +308,7 @@
         name={$collectionStore[selectedColection].name} 
         color={$collectionStore[selectedColection].color}
         emoji={$collectionStore[selectedColection].emoji}
-        options={menuOptions} >
+        options={getCollectionMenuOptions($collectionStore[selectedColection])} >
         <div class="itemList">
           {#each $collectionStore[selectedColection].items as item}
           <CollectionItem
@@ -366,6 +396,12 @@
 
   @media screen and (max-width: breakpoints.$mobile) {
     #WhishListsView {
+
+      .side__content {
+        .collectionsButtonsList { 
+          margin-bottom: sizing.sizing(8);
+        }
+      }
       .itemList {
         justify-content: center;
       }

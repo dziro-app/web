@@ -39,9 +39,9 @@ function createCollection() {
       newCollection[found].items.push(item)
       return newCollection
     }),
-    update: (collectionIndex: number,  updated: Item) => update(collections => {
+    update: (collectionId: string,  updated: Item) => update(collections => {
       const newCollections = collections.slice(0)
-      const collection = newCollections[collectionIndex]
+      const collection = newCollections.find(c => c.id === collectionId)
       const found = collection.items.findIndex(item => item.id === updated.id)
       collection.items[found] = updated
       return newCollections

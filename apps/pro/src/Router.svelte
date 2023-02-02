@@ -1,6 +1,7 @@
 <script lang="ts" >
   import { Router, Route } from "svelte-navigator"
-  import {Wishlist} from "ui"
+  // import {Wishlist} from "ui"
+  import Wishlist from "./Views/Wishlist/Main.svelte"
 
   // Respositories
   import {ApiUrl} from "./Repository/api"
@@ -24,8 +25,6 @@
   <Route path="/" >
     <Wishlist
       itemRepo={iRepo} 
-      collectionRepo={cRepo}
-      userId={$sessionStore.user.id}
-    />
+      collectionRepo={cRepo} />
   </Route>
 </Router>
